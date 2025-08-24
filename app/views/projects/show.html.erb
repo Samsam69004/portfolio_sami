@@ -1,0 +1,29 @@
+<section class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+  <%= link_to "← Retour", projects_path, class: "text-sky-700 hover:underline" %>
+
+  <h1 class="mt-4 text-4xl md:text-5xl font-black tracking-tight"><%= @project.title %></h1>
+  <% if @project.subtitle.present? %>
+    <p class="mt-2 text-lg text-slate-600"><%= @project.subtitle %></p>
+  <% end %>
+
+  <!-- Grande image 16:9 -->
+  <div class="mt-6 overflow-hidden rounded-2xl ring-1 ring-slate-200 bg-slate-100">
+    <img src="<%= project_image_src(@project) %>" alt="<%= @project.title %>" class="w-full h-auto object-cover">
+  </div>
+
+  <% if @project.description.present? %>
+    <div class="prose prose-slate max-w-none mt-8">
+      <%= simple_format @project.description %>
+    </div>
+  <% end %>
+
+  <div class="mt-6 flex flex-wrap items-center gap-3">
+    <% @project.techs.to_s.split(",").map(&:strip).each do |t| %>
+      <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700 ring-1 ring-slate-200"><%= t %></span>
+    <% end %>
+    <% if @project.url.present? %>
+      <%= link_to "Voir le site", @project.url, target: "_blank", rel: "noopener",
+        class: "ml-auto inline-flex items-center rounded-xl bg-sky-500 px-4 py-2.5 text-white font-semibold shadow hover:bg-sky-600 transition" %>
+    <% end %>
+  </div>
+</section>

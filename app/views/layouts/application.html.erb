@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Portfolio — Sami Chabane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "vendor/aos",  "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+    <meta name="description" content="Développeur web junior — sites simples, propres, efficaces. Ruby, HTML, CSS. En formation Java & Angular.">
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo + Nom -->
+    <%= link_to root_path, class: "flex items-center gap-3" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 256 256" aria-label="Logo SC animé">
+        <!-- Diamant animé -->
+        <path d="M128 24 L38 112 L128 232 L218 112 Z"
+              fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
+              stroke-dasharray="100" stroke-dashoffset="100">
+          <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite" />
+        </path>
+
+        <!-- SC animé -->
+        <text x="128" y="150" text-anchor="middle"
+              font-family="Inter, sans-serif"
+              font-weight="800" font-size="120" letter-spacing="-6" fill="#0f172a">
+          SC
+          <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" />
+          <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2s" repeatCount="indefinite" additive="sum"/>
+        </text>
+
+        <!-- </> animé -->
+        <text x="128" y="210" text-anchor="middle"
+              font-family="monospace"
+              font-weight="700" font-size="40" fill="#0ea5e9">
+          &lt;/&gt;
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,-2;0,0" dur="2s" repeatCount="indefinite"/>
+        </text>
+      </svg>
+      <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
+    <% end %>
+
+    <!-- Liens de navigation -->
+    <nav class="hidden md:flex gap-8 text-lg font-semibold">
+      <%= link_to "Projets",  root_path(anchor: "projects"), data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "À propos", root_path(anchor: "about"),    data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Contact",  root_path(anchor: "contact"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+    </nav>
+
+
+    <!-- Bouton discuter -->
+    <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
+      class: "inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-lg font-semibold text-white shadow hover:bg-sky-600 transition" %>
+  </div>
+</header>
+
+
+    <%= yield %>
+
+    <footer class="bg-white/90 backdrop-blur border-t border-slate-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Logo + nom (même esprit que la navbar, version compacte) -->
+        <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" aria-label="Logo SC">
+            <path d="M128 24 L38 112 L128 232 L218 112 Z" fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="128" y="150" text-anchor="middle" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" font-weight="800" font-size="110" letter-spacing="-6" fill="#0f172a">SC</text>
+          </svg>
+          <span class="font-semibold tracking-tight">Sami Chabane</span>
+        <% end %>
+
+    <!-- Liens -->
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">
+        <%= link_to "Projets",  root_path(anchor: "projects"), data: { turbo: false }, class: "text-slate-600 hover:text-sky-600 transition" %>
+        <%= link_to "À propos", root_path(anchor: "about"),    data: { turbo: false }, class: "text-slate-600 hover:text-sky-600 transition" %>
+        <%= link_to "Contact",  root_path(anchor: "contact"),  data: { turbo: false }, class: "text-slate-600 hover:text-sky-600 transition" %>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer components {
+  h2 {
+    @apply text-sky-500;
+  }
+}

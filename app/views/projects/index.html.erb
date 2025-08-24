@@ -1,0 +1,290 @@
+<section id="home" class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-slate-50 to-white"></div>
+
+  <!-- fond particules discret (si le JS "stars" est en place) -->
+  <canvas id="stars" class="absolute inset-0 -z-10"></canvas>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28 grid md:grid-cols-12 gap-10 items-center">
+    <!-- Texte -->
+    <div class="md:col-span-7">
+      <p data-aos="fade-up" class="text-sm font-medium tracking-wide text-sky-600 mb-3">
+        Développeur Web Junior — Ruby on Rails & Front-end
+      </p>
+
+      <h1 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-6xl font-extrabold leading-tight text-slate-900">
+        Des sites <span class="text-sky-500">modernes, sécurisés, maintenables</span>
+      </h1>
+
+      <p data-aos="fade-up" data-aos-delay="180" class="mt-5 text-lg text-slate-600 max-w-prose">
+        Je conçois et développe des <strong>sites vitrines</strong> et <strong>applications web</strong> avec
+        <strong>Ruby on Rails</strong>, en mettant l’accent sur la <strong>performance</strong>, la
+        <strong>sécurité</strong> (CSRF, XSS, SQL injection) et la <strong>maintenabilité</strong> du code.
+        Mon approche : livrer des solutions <strong>scalables</strong>, pensées pour évoluer et s’adapter aux besoins réels.
+        En parallèle, je renforce mes compétences en <strong>Java & Angular</strong> pour élargir ma stack.
+      </p>
+
+      <!-- preuves techniques -->
+      <ul class="mt-6 grid sm:grid-cols-2 gap-2 text-slate-700">
+        <li data-aos="fade-up" data-aos-delay="220" class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Architecture MVC (Rails)
+        </li>
+        <li data-aos="fade-up" data-aos-delay="260" class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Sécurité intégrée (CSRF, XSS, SQLi)
+        </li>
+        <li data-aos="fade-up" data-aos-delay="300" class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Responsive design & accessibilité
+        </li>
+        <li data-aos="fade-up" data-aos-delay="340" class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Optimisation SEO on-page avancée
+        </li>
+      </ul>
+
+      <!-- CTAs -->
+      <div data-aos="fade-up" data-aos-delay="400" class="mt-8 flex flex-wrap gap-3">
+        <a href="#projects"
+           class="rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">
+          Voir mes projets
+        </a>
+        <a href="#contact"
+           class="rounded-xl border border-slate-300 px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">
+          Me contacter
+        </a>
+        <a href="/CV_Sami_Chabane.pdf" target="_blank" rel="noopener noreferrer"
+           class="rounded-xl border border-slate-300 px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">
+          📄 Télécharger mon CV
+        </a>
+      </div>
+
+      <!-- badges techno -->
+      <ul data-aos="fade-up" data-aos-delay="460" class="mt-8 flex flex-wrap gap-3 text-sm text-slate-600">
+        <li class="px-3 py-1 rounded-full bg-white border">Ruby on Rails</li>
+        <li class="px-3 py-1 rounded-full bg-white border">MVC</li>
+        <li class="px-3 py-1 rounded-full bg-white border">ERB</li>
+        <li class="px-3 py-1 rounded-full bg-white border">HTML5</li>
+        <li class="px-3 py-1 rounded-full bg-white border">CSS3 / Tailwind</li>
+        <li class="px-3 py-1 rounded-full bg-white border">JavaScript ES6</li>
+        <li class="px-3 py-1 rounded-full bg-white border">Java (en cours)</li>
+        <li class="px-3 py-1 rounded-full bg-white border">Angular (en cours)</li>
+        <li class="px-3 py-1 rounded-full bg-white border">SEO on-page</li>
+        <li class="px-3 py-1 rounded-full bg-white border">Community Management</li>
+      </ul>
+
+      <!-- flèche scroll vers la suite -->
+      <a href="#projects" class="mt-10 inline-block animate-bounce text-slate-400" aria-label="Faire défiler">⌄</a>
+    </div>
+
+    <!-- Visuel -->
+    <div data-aos="zoom-in" data-aos-delay="120" class="md:col-span-5 md:justify-self-end">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-slate-200 bg-white">
+        <img
+          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
+          alt="Poste de travail développement web"
+          class="w-full h-80 object-cover">
+      </div>
+      <p class="mt-3 text-xs text-slate-500 text-center">
+        Code propre, sécurisé et pensé pour durer.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section id="projects" class="py-16 md:py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="mb-10 md:mb-14 flex items-end justify-between gap-4">
+      <div>
+        <h2 data-aos="fade-up" class="text-2xl md:text-4xl font-bold">Projets récents</h2>
+        <p data-aos="fade-up" data-aos-delay="100" class="mt-3 text-slate-600">Affichés depuis la base avec Rails.</p>
+      </div>
+      <form data-aos="fade-left" class="flex gap-2 items-center">
+        <select name="tech" class="rounded-xl border border-slate-300 px-3 py-2">
+          <option value="">— Filtrer par techno —</option>
+          <% ["HTML","CSS","Tailwind","JS","Rails","ERB"].each do |t| %>
+            <option value="<%= t %>" <%= "selected" if params[:tech] == t %>><%= t %></option>
+          <% end %>
+        </select>
+        <button class="rounded-xl border border-slate-300 px-3 py-2 hover:border-sky-600 hover:text-sky-600">Filtrer</button>
+      </form>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-10">
+      <% @projects.each_with_index do |p, i| %>
+        <%= link_to project_path(p), class: "group block rounded-2xl overflow-hidden bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl" do %>
+
+      <!-- Image grande 16:9 -->
+      <div class="relative aspect-[16/9] bg-slate-100">
+        <img src="<%= project_image_src(p) %>" alt="<%= p.title %>" class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 ring-0 ring-sky-500/0 group-hover:ring-2 group-hover:ring-sky-500/40 transition"></div>
+      </div>
+
+      <!-- Contenu -->
+      <div class="p-5">
+        <h3 class="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-sky-600 transition">
+          <%= p.title %>
+        </h3>
+        <% if p.subtitle.present? %>
+          <p class="mt-1 text-slate-600"><%= p.subtitle %></p>
+        <% end %>
+        <% if p.description.present? %>
+          <p class="mt-3 text-slate-600">
+            <%= truncate(p.description, length: 220) %>
+          </p>
+        <% end %>
+
+        <div class="mt-4 flex flex-wrap gap-2 text-sm">
+          <% p.techs.to_s.split(",").map(&:strip).each do |t| %>
+            <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200"><%= t %></span>
+          <% end %>
+          <% if p.url.present? %>
+            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">En ligne</span>
+          <% else %>
+            <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">Non hébergé</span>
+          <% end %>
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>
+
+  </div>
+</section>
+
+<!-- Section Certifications -->
+<section id="certifications" class="py-20 md:py-28 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6"><!-- +1 cran de largeur -->
+    <h2 data-aos="fade-up" class="text-3xl md:text-4xl font-bold mb-6">Certifications</h2>
+    <p data-aos="fade-up" data-aos-delay="100" class="text-slate-600 mb-8">
+      Voici mes diplômes et attestations, consultables directement.
+    </p>
+
+    <div class="grid gap-10 md:grid-cols-2"><!-- gap +10 pour aérer -->
+      <!-- Diplôme -->
+      <div data-aos="fade-up" class="bg-white p-5 rounded-2xl shadow">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold text-lg">Diplôme — Le Wagon</h3>
+          <%= link_to "Télécharger", asset_path("diploma.pdf"),
+                class: "text-sm px-3 py-1 rounded-full border hover:shadow",
+                target: "_blank", rel: "noopener" %>
+        </div>
+        <iframe
+          src="<%= asset_path('diploma.pdf') %>#view=FitH&zoom=125"
+          loading="lazy"
+          class="w-full h-[32rem] sm:h-[38rem] lg:h-[46rem] rounded-xl border"
+          title="Diplôme Le Wagon (PDF)"></iframe>
+        <p class="mt-2 text-xs text-slate-500">
+          Si le PDF ne s’affiche pas,
+          <%= link_to "ouvre-le dans un nouvel onglet", asset_path("diploma.pdf"),
+                target: "_blank", rel: "noopener", class: "underline" %>.
+        </p>
+      </div>
+
+      <!-- Attestation -->
+      <div data-aos="fade-up" data-aos-delay="150" class="bg-white p-5 rounded-2xl shadow">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold text-lg">Attestation de fin de formation</h3>
+          <%= link_to "Télécharger", asset_path("certificate_of_completion.pdf"),
+                class: "text-sm px-3 py-1 rounded-full border hover:shadow",
+                target: "_blank", rel: "noopener" %>
+        </div>
+        <iframe
+          src="<%= asset_path('certificate_of_completion.pdf') %>#view=FitH&zoom=125"
+          loading="lazy"
+          class="w-full h-[32rem] sm:h-[38rem] lg:h-[46rem] rounded-xl border"
+          title="Attestation de fin de formation (PDF)"></iframe>
+        <p class="mt-2 text-xs text-slate-500">
+          Si le PDF ne s’affiche pas,
+          <%= link_to "ouvre-le dans un nouvel onglet", asset_path("certificate_of_completion.pdf"),
+                target: "_blank", rel: "noopener", class: "underline" %>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section id="about" class="py-16 md:py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
+
+    <!-- Texte -->
+    <div data-aos="fade-right">
+      <h2 class="text-2xl md:text-4xl font-bold">À propos</h2>
+      <p class="mt-4 text-slate-700 leading-relaxed">
+        Je m’appelle <strong>Sami Chabane</strong>, développeur web junior basé à <strong>Lyon</strong>.
+        J’aide les <strong>indépendants, artisans et associations</strong> à gagner en crédibilité en ligne
+        grâce à des sites <strong>simples, beaux et efficaces</strong>.
+      </p>
+
+      <p class="mt-4 text-slate-700 leading-relaxed">
+        Mon approche : <strong>clarifier votre message</strong>, <strong>mettre en valeur</strong> ce qui vous différencie,
+        et <strong>livrer rapidement</strong> un résultat propre que vous serez fier de montrer.
+      </p>
+
+      <p class="mt-4 text-slate-700 leading-relaxed">
+        Aujourd’hui en formation <strong>Java & Angular</strong>, je m’appuie sur des bases solides en
+        <strong>Ruby, HTML, CSS</strong> et un peu de <strong>JavaScript</strong>.
+        Avec mon expérience en <strong>community management</strong>, je combine technique et communication
+        pour proposer des sites web à la fois <strong>efficaces</strong> et <strong>impactants</strong>.
+      </p>
+
+      <!-- Boutons -->
+      <div class="mt-6 flex gap-3">
+        <a href="/CV_Sami_Chabane.pdf"
+           target="_blank" rel="noopener noreferrer"
+           class="rounded-xl border px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">
+           📄 Télécharger mon CV
+        </a>
+        <a href="#contact"
+           class="rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">
+           Me contacter
+        </a>
+      </div>
+    </div>
+
+    <!-- Photo -->
+<div data-aos="zoom-in" class="flex justify-center">
+  <div class="relative inline-block group">
+    <!-- halo doux au survol -->
+    <div class="absolute -inset-1 rounded-full bg-sky-500/20 blur opacity-0 transition duration-300
+                group-hover:opacity-100" aria-hidden="true"></div>
+
+    <img src="<%= asset_path 'sami.jpg' %>" alt="Sami Chabane"
+         class="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-sky-500 shadow-lg
+                transition duration-300 group-hover:scale-105 group-hover:shadow-2xl group-hover:border-sky-600">
+  </div>
+</div>
+
+
+  </div>
+</section>
+
+
+<section id="contact" class="py-16 md:py-24 bg-white border-t border-slate-200">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <h2 data-aos="fade-up" class="text-2xl md:text-4xl font-bold">Contact</h2>
+    <p data-aos="fade-up" data-aos-delay="100" class="mt-4 text-slate-700">Un projet, une question, une opportunité d’alternance ? Écrivez-moi :</p>
+
+    <form data-aos="fade-up" data-aos-delay="180" class="mt-8 grid gap-4" action="mailto:chabanesami7@gmail.com" method="post" enctype="text/plain">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <input required name="Nom" placeholder="Votre nom" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" />
+        <input required name="Email" placeholder="Votre email" type="email" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" />
+      </div>
+      <input name="Sujet" placeholder="Sujet" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" />
+      <textarea required name="Message" placeholder="Votre message" rows="5" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
+      <button class="justify-self-center inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">
+        Envoyer
+      </button>
+    </form>
+  </div>
+</section>
+
+<script>
+  // année footer
+  document.addEventListener("DOMContentLoaded", () => {
+    const y = document.getElementById("year");
+    if (y) y.textContent = new Date().getFullYear();
+  });
+</script>

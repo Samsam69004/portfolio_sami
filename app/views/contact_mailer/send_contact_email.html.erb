@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9fafb;
+        color: #333;
+        padding: 20px;
+      }
+      .container {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+      }
+      h2 {
+        color: #0ea5e9;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Nouveau message depuis ton portfolio 🚀</h2>
+
+      <p><strong>Nom :</strong> <%= @name.presence || "Anonyme" %></p>
+      <p><strong>Email :</strong> <%= @from_email %></p>
+
+      <hr>
+
+      <p><strong>Message :</strong></p>
+      <p><%= simple_format(@message) %></p>
+
+      <div class="footer">
+        <p>— Envoyé automatiquement depuis ton site portfolio</p>
+      </div>
+    </div>
+  </body>
+</html>
