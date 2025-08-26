@@ -5,3 +5,29 @@
     @apply text-sky-500;
   }
 }
+
+/* Masquer complètement la barre Turbo (Hotwire) */
+turbo-progress-bar {
+  display: none !important;
+}
+
+/* Si NProgress est chargé par mégarde */
+#nprogress, #nprogress .bar, #nprogress .spinner {
+  display: none !important;
+}
+
+/* Overlays de debug éventuels */
+.dev-overlay, .vite-error-overlay, .error-overlay {
+  display: none !important;
+}
+
+@layer utilities {
+  @keyframes heartbeat {
+    0%,40%,80%,100% { transform: scale(1); }
+    20%,60% { transform: scale(1.22); }
+  }
+  .animate-heart {
+    animation: heartbeat 1.6s ease-in-out infinite;
+  }
+}
+

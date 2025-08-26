@@ -12,5 +12,3 @@ class ProjectsController < ApplicationController
     @project = Project.find_by!(slug: params[:slug])
   end
 end
-
-

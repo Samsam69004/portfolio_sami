@@ -9,5 +9,3 @@ module ApplicationHelper
     link_to name, url, { target: "_blank", rel: "noopener noreferrer" }.merge(opts)
   end
 end
-
-

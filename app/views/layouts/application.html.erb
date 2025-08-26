@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <title>Portfolio — Sami Chabane</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for?(:title) ? yield(:title) : "Portfolio — Sami Chabane" %></title>
+  <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Développeur web junior à Lyon — sites simples, propres, efficaces. Ruby, HTML, CSS. En formation Java & Angular.' %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "vendor/aos",  "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <!-- Canonical -->
+  <link rel="canonical" href="<%= request.original_url.split('?').first %>">
 
-    <meta name="description" content="Développeur web junior — sites simples, propres, efficaces. Ruby, HTML, CSS. En formation Java & Angular.">
-  </head>
+  <!-- Open Graph -->
+  <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
+  <meta property="og:title" content="<%= content_for?(:og_title) ? yield(:og_title) : 'Portfolio — Sami Chabane' %>">
+  <meta property="og:description" content="<%= content_for?(:og_description) ? yield(:og_description) : 'Développeur web junior à Lyon. Découvrez mes projets Ruby on Rails, JavaScript, Tailwind.' %>">
+  <meta property="og:url" content="<%= request.original_url.split('?').first %>">
+  <meta property="og:image" content="<%= image_url('og/default.jpg') %>">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= content_for?(:og_title) ? yield(:og_title) : 'Portfolio — Sami Chabane' %>">
+  <meta name="twitter:description" content="<%= content_for?(:og_description) ? yield(:og_description) : 'Développeur web junior à Lyon. Découvrez mes projets Ruby on Rails, JavaScript, Tailwind.' %>">
+  <meta name="twitter:image" content="<%= image_url('og/default.jpg') %>">
+
+  <!-- Favicons -->
+<%= favicon_link_tag 'favicons/favicon.ico' %>
+<link rel="icon" type="image/png" sizes="32x32" href="<%= asset_path('favicons/favicon-32x32.png') %>">
+<link rel="icon" type="image/png" sizes="16x16" href="<%= asset_path('favicons/favicon-16x16.png') %>">
+<link rel="apple-touch-icon" sizes="192x192" href="<%= asset_path('favicons/android-chrome-192x192.png') %>">
+<link rel="apple-touch-icon" sizes="512x512" href="<%= asset_path('favicons/android-chrome-512x512.png') %>">
+
+
+  <!-- Styles & JS -->
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "vendor/aos",  "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+</head>
+
   <body class="bg-slate-50 text-slate-800">
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -46,13 +71,13 @@
       <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
     <% end %>
 
-    <!-- Liens de navigation -->
     <nav class="hidden md:flex gap-8 text-lg font-semibold">
-      <%= link_to "Projets",  root_path(anchor: "projects"), data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      <%= link_to "À propos", root_path(anchor: "about"),    data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      <%= link_to "Contact",  root_path(anchor: "contact"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition" %>
     </nav>
-
 
     <!-- Bouton discuter -->
     <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
@@ -64,20 +89,63 @@
     <%= yield %>
 
     <footer class="bg-white/90 backdrop-blur border-t border-slate-200">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <!-- Logo + nom (même esprit que la navbar, version compacte) -->
-        <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" aria-label="Logo SC">
-            <path d="M128 24 L38 112 L128 232 L218 112 Z" fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-            <text x="128" y="150" text-anchor="middle" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" font-weight="800" font-size="110" letter-spacing="-6" fill="#0f172a">SC</text>
-          </svg>
-          <span class="font-semibold tracking-tight">Sami Chabane</span>
-        <% end %>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4
+              flex flex-col gap-3
+              md:flex-row md:items-center md:justify-between">
 
-    <!-- Liens -->
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">
-        <%= link_to "Projets",  root_path(anchor: "projects"), data: { turbo: false }, class: "text-slate-600 hover:text-sky-600 transition" %>
-        <%= link_to "À propos", root_path(anchor: "about"),    data: { turbo: false }, class: "text-slate-600 hover:text-sky-600 transition" %>
-        <%= link_to "Contact",  root_path(anchor: "contact"),  data: { turbo: false }, class: "text-slate-600 hover:text-sky-600 transition" %>
-  </body>
+    <!-- Gauche : logo + nom -->
+    <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" aria-label="Logo SC">
+        <path d="M128 24 L38 112 L128 232 L218 112 Z" fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="128" y="150" text-anchor="middle" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" font-weight="800" font-size="110" letter-spacing="-6" fill="#0f172a">SC</text>
+      </svg>
+      <span class="font-semibold tracking-tight">Sami Chabane</span>
+    <% end %>
+
+    <!-- Milieu : liens de section -->
+    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">
+      <%= link_to "Projets",        root_path(anchor: "projects"),       data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Certifications", root_path(anchor: "certifications"), data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Passions",       root_path(anchor: "passions"),       data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "À propos",       root_path(anchor: "about"),          data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Contact",        root_path(anchor: "contact"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+    </nav>
+
+    <!-- Droite : mention + réseaux -->
+    <div class="flex items-center gap-4">
+      <div class="group flex items-center gap-1 text-sm text-slate-500">
+        <span>Fait avec</span>
+        <span class="mx-1 inline-flex items-center justify-center text-red-500 animate-heart transition-transform will-change-transform group-hover:scale-125" aria-hidden="true">♥</span>
+        <span>par</span>
+        <%= link_to "Sami Chabane",
+          "https://www.linkedin.com/in/sami-chabane-085881151/",
+          target: "_blank", rel: "noopener",
+          class: "font-medium text-sky-600 hover:underline" %>
+      </div>
+
+
+      <!-- Icônes -->
+      <div class="flex items-center gap-3 text-slate-500">
+        <%= link_to "https://github.com/SamiChabane", target: "_blank", rel: "noopener",
+            class: "hover:text-sky-600 transition", aria: { label: "GitHub" } do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .5A12 12 0 0 0 0 12.6c0 5.3 3.4 9.7 8.2 11.3.6.1.8-.3.8-.6v-2c-3.3.7-4-1.5-4-1.5-.6-1.4-1.5-1.8-1.5-1.8-1.2-.8.1-.8.1-.8 1.3.1 2 .9 2 .9 1.1 1.9 2.9 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.4-5.3-6a4.7 4.7 0 0 1 1.2-3.3 4.4 4.4 0 0 1 .1-3.2s1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.3.8.4 2.2.1 3.2a4.7 4.7 0 0 1 1.2 3.3c0 4.6-2.7 5.6-5.3 6 .4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6A12.1 12.1 0 0 0 24 12.6 12 12 0 0 0 12 .5z"/>
+          </svg>
+        <% end %>
+        <%= link_to "https://www.linkedin.com/in/sami-chabane-085881151/", target: "_blank", rel: "noopener",
+            class: "hover:text-sky-600 transition", aria: { label: "LinkedIn" } do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.9h.1a4.1 4.1 0 0 1 3.7-2.1c4 0 4.7 2.6 4.7 6v6H17V16c0-1.4 0-3.3-2-3.3s-2.3 1.5-2.3 3.2V21H9z"/>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animation du cœur -->
+  <style>
+    @keyframes heartbeat { 0%,40%,80%,100%{transform:scale(1)} 20%,60%{transform:scale(1.22)} }
+    .heart { display:inline-block; animation: heartbeat 1.6s ease-in-out infinite; transition: transform .2s ease; }
+    .
+</body>
 </html>

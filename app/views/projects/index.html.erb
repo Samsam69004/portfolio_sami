@@ -112,10 +112,15 @@
         <%= link_to project_path(p), class: "group block rounded-2xl overflow-hidden bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl" do %>
 
       <!-- Image grande 16:9 -->
-      <div class="relative aspect-[16/9] bg-slate-100">
-        <img src="<%= project_image_src(p) %>" alt="<%= p.title %>" class="absolute inset-0 h-full w-full object-cover">
-        <div class="absolute inset-0 ring-0 ring-sky-500/0 group-hover:ring-2 group-hover:ring-sky-500/40 transition"></div>
-      </div>
+      <!-- Image grande 16:9 -->
+        <div class="relative aspect-[16/9] bg-slate-100">
+          <% images = p.image_url.to_s.split(",") %>
+          <%= image_tag images.first.strip,
+            alt: p.title,
+            class: "absolute inset-0 h-full w-full object-cover" %>
+          <div class="absolute inset-0 ring-0 ring-sky-500/0 group-hover:ring-2 group-hover:ring-sky-500/40 transition"></div>
+        </div>
+
 
       <!-- Contenu -->
       <div class="p-5">
@@ -202,6 +207,68 @@
   </div>
 </section>
 
+<section id="passions" class="py-16 md:py-24 bg-white border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
+
+    <!-- Texte -->
+    <div data-aos="fade-right">
+      <h2 class="text-2xl md:text-4xl font-bold text-sky-500">Mes passions</h2>
+      <p class="mt-4 text-slate-700 leading-relaxed">
+        Le sport et les voyages occupent une place essentielle dans ma vie, car ils forgent le caractère et développent des valeurs que je retrouve aussi dans mon parcours professionnel.
+      </p>
+
+      <ul class="mt-6 space-y-4 text-slate-700">
+        <li class="flex items-center gap-3">
+          <span class="text-2xl">⚽</span>
+          <span>Le <strong>football</strong> : école de la combativité et du goût de l’effort collectif. Je suis passionné par ce sport depuis toujours et je supporte avec fierté l’<strong>Olympique Lyonnais</strong>, mon club de cœur.</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="text-2xl">🎾</span>
+          <span>Le <strong>tennis</strong> : un sport où le mental fait toute la différence. J’y retrouve la capacité à rester concentré, à gérer la pression et à ne jamais lâcher, même dans les moments difficiles.</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="text-2xl">🌍</span>
+          <span>Les <strong>voyages</strong> : l’envie de découvrir de nouvelles cultures, de sortir de ma zone de confort et d’élargir ma vision du monde.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Image illustrant les voyages -->
+    <div class="md:col-span-1">
+  <div class="relative h-[540px] overflow-hidden rounded-3xl shadow-xl ring-1 ring-slate-200 bg-white"
+       data-carousel
+       data-autoplay="true"
+       data-interval="3500"
+       data-pause-on-hover="true">
+    <% slides = [
+      asset_path("passions/voyage.jpg"),     # ta photo actuelle
+      asset_path("passions/ol.jpg"),         # logo/photo de l'OL
+      asset_path("passions/tennis.jpg")      # photo tennis
+    ] %>
+
+    <% slides.each_with_index do |src, i| %>
+      <img src="<%= src %>"
+           alt="Mes passions — slide <%= i+1 %> / <%= slides.size %>"
+           class="carousel-slide <%= i.zero? ? '' : 'hidden' %> w-full h-[540px] object-cover">
+    <% end %>
+
+    <!-- Flèches -->
+    <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 px-3 py-1.5 text-3xl bg-white/70 rounded-full"
+            aria-label="Précédent" data-action="prev">‹</button>
+    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 text-3xl bg-white/70 rounded-full"
+            aria-label="Suivant" data-action="next">›</button>
+
+    <!-- Dots -->
+    <div class="absolute bottom-3 inset-x-0 flex justify-center gap-2">
+      <% slides.each_with_index do |_, i| %>
+        <button type="button" class="carousel-dot h-2.5 w-2.5 rounded-full <%= i.zero? ? 'bg-slate-900' : 'bg-slate-300' %>"
+                aria-label="Aller à l’image <%= i+1 %>" data-goto="<%= i %>"></button>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+</section>
 
 
 
@@ -258,6 +325,11 @@
 </div>
 
 
+  </div>
+</section>
+
+<section id="passions" class="py-16 md:py-24 bg-white border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
   </div>
 </section>
 

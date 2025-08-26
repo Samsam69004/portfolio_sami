@@ -1,16 +1,24 @@
 module ProjectsHelper
+  # Renvoie une URL d'image "principale" (la 1re)
   def project_image_src(project)
-    url = project.image_url.to_s.strip
+    raw = project.image_url.to_s.strip
+    return "" if raw.blank?
 
-    if url.blank?
-      # fallback 16:9
-      return "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
-    end
+    first = raw.split(",").map(&:strip).reject(&:blank?).first
+    return first if first =~ /\Ahttps?:|^data:/
 
-    # URL externe (http/https) → on renvoie tel quel
-    return url if url =~ /\Ahttps?:\/\//i
+    # chemin relatif => doit exister dans app/assets/images
+    asset_path(first)
+  end
 
-    # Chemin relatif vers app/assets/images → on passe par asset_path
-    asset_path(url)
+  # Renvoie la liste des URLs prêtes à être affichées
+  def project_image_list(project)
+    raw = project.image_url.to_s
+    return [] if raw.blank?
+
+    raw.split(",")
+       .map(&:strip)
+       .reject(&:blank?)
+       .map { |p| (p =~ /\Ahttps?:|^data:/) ? p : asset_path(p) }
   end
 end
