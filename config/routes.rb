@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   root "projects#index"
 
   # Projets (slug au lieu d'id)
-  resources :projects, only: [:index, :show], param: :slug
+  resources :projects, only: [ :index, :show ], param: :slug
 
   # Contact : /contact (GET) pour le formulaire, /contact (POST) pour l’envoi
-  resource :contact, only: [:create], controller: :contacts
+  resource :contact, only: [ :create ], controller: :contacts
   get "/contact", to: "projects#index", as: :contact_page
 
 
