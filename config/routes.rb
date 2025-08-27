@@ -4,9 +4,9 @@ Rails.application.routes.draw do
 
   # Projets (slug au lieu d'id)
   resources :projects, only: [ :index, :show ], param: :slug
-
-  # Contact : /contact (GET) pour le formulaire, /contact (POST) pour l’envoi
+  # Envoi du formulaire
   resource :contact, only: [ :create ], controller: :contacts
+  # One-page : /contact (GET) -> même page (formulaire visible)
   get "/contact", to: "projects#index", as: :contact_page
 
 
