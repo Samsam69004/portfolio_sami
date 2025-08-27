@@ -1,23 +1,31 @@
 class ContactsController < ApplicationController
-  def new
-  end
-
   def create
-    return redirect_to contact_path, alert: "Erreur." if params[:website].present? # honeypot
+    # Honeypot : si le champ caché est rempli → bot
+    if params[:website].present?
+      flash[:_from] = "contact"
+      return redirect_to(root_path(anchor: "contact"), alert: "Spam détecté.")
+    end
 
-    name    = params[:name].to_s.first(100)
-    email   = params[:email].to_s.first(200)
-    subject = params[:subject].to_s.first(150)
-    message = params[:message].to_s.first(4000)
+    # Avec form_with scope:nil, les champs sont à la racine de params
+    c = params.permit(:name, :email, :subject, :message)
+
+    name    = c[:name].to_s.first(100)
+    email   = c[:email].to_s.first(200)
+    subject = c[:subject].to_s.first(150)
+    message = c[:message].to_s.first(4000)
 
     unless email.match?(/\A[^@\s]+@[^@\s]+\z/) && message.present?
-      return redirect_to contact_path, alert: "Vérifiez l’email et le message."
+      flash[:_from] = "contact"
+      return redirect_to(root_path(anchor: "contact"), alert: "Vérifiez l’e-mail et le message.")
     end
 
     ContactMailer.send_contact_email(name, email, subject, message).deliver_now
-    redirect_to contact_path, notice: "Merci ! Votre message a bien été envoyé."
+
+    flash[:_from] = "contact"
+    redirect_to root_path(anchor: "contact"), notice: "Merci ! Votre message a bien été envoyé."
   rescue => e
-    Rails.logger.error("Contact error: #{e.class} #{e.message}")
-    redirect_to contact_path, alert: "Une erreur est survenue. Réessayez plus tard."
+    Rails.logger.error("[Contact#create] #{e.class}: #{e.message}")
+    flash[:_from] = "contact"
+    redirect_to root_path(anchor: "contact"), alert: "Une erreur est survenue. Réessayez plus tard."
   end
 end

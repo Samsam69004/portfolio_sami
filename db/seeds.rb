@@ -1,3 +1,8 @@
+# db/seeds.rb
+if Rails.env.test?
+  puts "Skipping seeds in test environment"
+  return
+end
 # Reset
 Project.destroy_all
 

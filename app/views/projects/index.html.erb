@@ -337,21 +337,66 @@
 <section id="contact" class="py-16 md:py-24 bg-white border-t border-slate-200">
   <div class="max-w-3xl mx-auto px-4 sm:px-6">
     <h2 data-aos="fade-up" class="text-2xl md:text-4xl font-bold">Contact</h2>
-    <p data-aos="fade-up" data-aos-delay="100" class="mt-4 text-slate-700">Un projet, une question, une opportunité d’alternance ? Écrivez-moi :</p>
+    <p data-aos="fade-up" data-aos-delay="100" class="mt-4 text-slate-700">
+      Un projet, une question, une opportunité d’alternance ? Écrivez-moi :
+    </p>
 
-    <form data-aos="fade-up" data-aos-delay="180" class="mt-8 grid gap-4" action="mailto:chabanesami7@gmail.com" method="post" enctype="text/plain">
+    <%# --- messages flash : n’afficher que ceux venant du contact --- %>
+    <% if flash[:_from] == "contact" %>
+      <% flash.each do |type, msg| %>
+        <% next if type.to_s == "_from" %>
+        <% klass =
+             case type.to_s
+             when "notice"      then "bg-emerald-50 text-emerald-700"
+             when "alert","error" then "bg-rose-50 text-rose-700"
+             else "bg-slate-100 text-slate-700"
+             end %>
+        <div class="mt-4 rounded-xl px-4 py-3 <%= klass %>"><%= msg %></div>
+      <% end %>
+      <%# On consomme le tag pour éviter qu’il réapparaisse ailleurs %>
+      <% flash.delete(:_from) %>
+    <% end %>
+
+    <%= form_with url: contact_path,
+                  method: :post,
+                  scope: nil,               # => params[:name], [:email], [:subject], [:message]
+                  data: { turbo: false },   # en dev: soumission classique (plus simple à débug)
+                  local: true,
+                  html: { class: "mt-8 grid gap-4" } do |f| %>
+
       <div class="grid sm:grid-cols-2 gap-4">
-        <input required name="Nom" placeholder="Votre nom" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" />
-        <input required name="Email" placeholder="Votre email" type="email" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" />
+        <%= f.text_field :name,
+              placeholder: "Votre nom",
+              required: true,
+              autocomplete: "name",
+              class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
+
+        <%= f.email_field :email,
+              placeholder: "Votre email",
+              required: true,
+              autocomplete: "email",
+              class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
       </div>
-      <input name="Sujet" placeholder="Sujet" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" />
-      <textarea required name="Message" placeholder="Votre message" rows="5" class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
-      <button class="justify-self-center inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">
-        Envoyer
-      </button>
-    </form>
+
+      <%= f.text_field :subject,
+            placeholder: "Sujet",
+            class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
+
+      <%= f.text_area :message,
+            rows: 5,
+            required: true,
+            placeholder: "Votre message",
+            class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
+
+      <%# Honeypot anti-bots : invisible pour humains %>
+      <%= f.text_field :website, value: "", autocomplete: "off", tabindex: -1, class: "hidden" %>
+
+      <%= f.submit "Envoyer",
+            class: "justify-self-center inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition" %>
+    <% end %>
   </div>
 </section>
+
 
 <script>
   // année footer
