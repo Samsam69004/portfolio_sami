@@ -1,25 +1,63 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  title: MyString
-  subtitle: MyString
-  description: MyText
-  techs: MyString
-  image_url: MyString
-  url: MyString
-  github_url: MyString
-  slug: MyString
+# --- Projets réels ---
+site_mere:
+  title: "Site ApsySE"
+  subtitle: "Site professionnel"
+  description: "Un site vitrine élégant pour présenter le cabinet de psychothérapie ApsySE."
+  techs: "Ruby on Rails, TailwindCSS"
+  image_url: "apsyse.png"
+  url: "http://localhost:3000/site-mere"
+  github_url: "https://github.com/moncompte/site-mere"
+  slug: "site-mere"
   position: 1
+  published: true
+
+logo_nino:
+  title: "Création de logo"
+  subtitle: "Projet design"
+  description: "Collaboration avec Nino pour la création d’un logo moderne et personnalisé."
+  techs: "Illustrator, Photoshop"
+  image_url: "logo-nino.png"
+  url: "http://localhost:3000/logo-nino"
+  github_url: "https://github.com/moncompte/logo-nino"
+  slug: "logo-nino"
+  position: 2
+  published: true
+
+site_lorenzo:
+  title: "Site Lorenzo Granjon"
+  subtitle: "Portfolio comédien"
+  description: "Un site interactif pour présenter le parcours, les photos et vidéos de Lorenzo Granjon."
+  techs: "Rails, JS, Tailwind"
+  image_url: "lorenzo.png"
+  url: "http://localhost:3000/lorenzo"
+  github_url: "https://github.com/moncompte/site-lorenzo"
+  slug: "site-lorenzo"
+  position: 3
+  published: true
+
+tripmates:
+  title: "Tripmates"
+  subtitle: "Application voyage"
+  description: "Une application collaborative pour organiser des voyages entre amis."
+  techs: "Rails, JS, HTML, CSS"
+  image_url: "tripmates.png"
+  url: "http://localhost:3000/tripmates"
+  github_url: "https://github.com/moncompte/tripmates"
+  slug: "tripmates"
+  position: 4
   published: false
 
-two:
-  title: MyString
-  subtitle: MyString
-  description: MyText
-  techs: MyString
-  image_url: MyString
-  url: MyString
-  github_url: MyString
-  slug: MyString
-  position: 1
+# --- Projets générés automatiquement pour les tests ---
+<% 3.times do |i| %>
+auto_project_<%= i %>:
+  title: "Projet auto <%= i %>"
+  subtitle: "Test"
+  description: "Projet de test généré automatiquement."
+  techs: "Rails, JS"
+  image_url: "auto-<%= i %>.png"
+  url: "http://localhost:3000/auto-<%= i %>"
+  github_url: "https://github.com/moncompte/auto-<%= i %>"
+  slug: "auto-<%= i %>"
+  position: <%= i + 5 %>
   published: false
+<% end %>
