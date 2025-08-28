@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
     # HTTP cache (ETag + Last-Modified)
     lm          = @projects.maximum(:updated_at)
     tech_filter = params[:tech].presence # une simple string, pas un params slice
-    fresh_when(etag: [lm, tech_filter], last_modified: lm, public: true)
+    fresh_when(etag: [ lm, tech_filter ], last_modified: lm, public: true)
   end
 
   # GET /projects/:slug
