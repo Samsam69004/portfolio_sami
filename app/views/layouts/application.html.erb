@@ -2,41 +2,87 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title><%= content_for?(:title) ? yield(:title) : "Portfolio — Sami Chabane" %></title>
-  <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'Développeur web junior à Lyon — sites simples, propres, efficaces. Ruby, HTML, CSS. En formation Java & Angular.' %>">
+  <title><%= meta_title %></title>
+  <meta name="description" content="<%= meta_description %>">
+  <meta name="robots" content="<%= meta_robots %>">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="google-site-verification" content="k75yQfe4Kg3FGQ_hL7gDgmPXUtkIw7ynFTGrnrC--1I" />
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
+  <%# Google Search Console (prod seulement, via ENV) %>
+  <% if Rails.env.production? && ENV["GSC_META"] %>
+    <meta name="google-site-verification" content="<%= ENV["GSC_META"] %>">
+  <% end %>
+
   <!-- Canonical -->
-  <link rel="canonical" href="<%= request.original_url.split('?').first %>">
+  <link rel="canonical" href="<%= canonical_url %>">
 
   <!-- Open Graph -->
   <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
-  <meta property="og:title" content="<%= content_for?(:og_title) ? yield(:og_title) : 'Portfolio — Sami Chabane' %>">
-  <meta property="og:description" content="<%= content_for?(:og_description) ? yield(:og_description) : 'Développeur web junior à Lyon. Découvrez mes projets Ruby on Rails, JavaScript, Tailwind.' %>">
-  <meta property="og:url" content="<%= request.original_url.split('?').first %>">
-  <meta property="og:image" content="<%= image_url('og/default.jpg') %>">
+  <meta property="og:title" content="<%= meta_title %>">
+  <meta property="og:description" content="<%= meta_description %>">
+  <meta property="og:url" content="<%= canonical_url %>">
+  <meta property="og:image" content="<%= meta_image %>">
+  <meta property="og:site_name" content="Portfolio — Sami Chabane">
+  <meta property="og:locale" content="fr_FR">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= content_for?(:og_title) ? yield(:og_title) : 'Portfolio — Sami Chabane' %>">
-  <meta name="twitter:description" content="<%= content_for?(:og_description) ? yield(:og_description) : 'Développeur web junior à Lyon. Découvrez mes projets Ruby on Rails, JavaScript, Tailwind.' %>">
-  <meta name="twitter:image" content="<%= image_url('og/default.jpg') %>">
+  <meta name="twitter:title" content="<%= meta_title %>">
+  <meta name="twitter:description" content="<%= meta_description %>">
+  <meta name="twitter:image" content="<%= meta_image %>">
 
   <!-- Favicons -->
-  <%= favicon_link_tag 'favicons/favicon.ico' %>
-  <link rel="icon" type="image/png" sizes="32x32" href="<%= asset_path('favicons/favicon-32x32.png') %>">
-  <link rel="icon" type="image/png" sizes="16x16" href="<%= asset_path('favicons/favicon-16x16.png') %>">
-  <link rel="apple-touch-icon" sizes="192x192" href="<%= asset_path('favicons/android-chrome-192x192.png') %>">
-  <link rel="apple-touch-icon" sizes="512x512" href="<%= asset_path('favicons/android-chrome-512x512.png') %>">
+  <%= favicon_link_tag "favicons/favicon.ico" %>
+  <link rel="icon" type="image/png" sizes="96x96" href="<%= asset_path("favicons/favicon-96x96.png") %>">
+  <link rel="apple-touch-icon" href="<%= asset_path("favicons/apple-touch-icon.png") %>">
+
+  <!-- (perf) préconnect -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <!-- Styles & JS -->
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "vendor/aos",  "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+  <!-- Emplacement pour JSON-LD (Person, Breadcrumbs…) -->
+  <%= yield(:structured_data) if content_for?(:structured_data) %>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sami Chabane",
+  "url": "https://samichabane.com",
+  "jobTitle": "Développeur web junior",
+  "knowsAbout": ["Ruby on Rails", "HTML", "CSS", "Tailwind", "JavaScript"],
+  "sameAs": [
+    "https://github.com/Samsam69004",
+    "https://www.linkedin.com/in/sami-chabane-085881151/"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Portfolio — Sami Chabane",
+  "url": "https://samichabane.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://samichabane.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
 </head>
+
 
 <body class="bg-slate-50 text-slate-800">
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
