@@ -65,9 +65,13 @@
     <% end %>
 
     <% if @project.url.present? %>
-      <%= link_to "Voir le site", @project.url, target: "_blank", rel: "noopener"
-        , class: "ml-auto inline-flex items-center rounded-xl bg-sky-500 px-4 py-2.5 text-white font-semibold shadow hover:bg-sky-600 transition" %>
+      <%= link_to "Voir le site",
+              @project.url,
+              target: "_blank",
+              rel: "noopener",
+              class: "ml-auto inline-flex items-center rounded-xl bg-sky-500 px-4 py-2.5 text-white font-semibold shadow hover:bg-sky-600 transition" %>
     <% end %>
+
   </div>
 
   <%# --------- CAROUSEL --------- %>
