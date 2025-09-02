@@ -13,7 +13,7 @@ Rails.application.configure do
 
   # --- Assets / fichiers statiques ---
   # Laisse à false si ton reverse proxy sert les fichiers ; sinon active via variable.
-  config.assets.compile = false
+  config.assets.compile = true
   # Permettre à Rails de servir les fichiers statiques si RAILS_SERVE_STATIC_FILES=1
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
