@@ -7,43 +7,43 @@ Rails.application.configure do
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
-  # Déchiffrement des credentials en prod (recommandé)
-  # -> mets RAILS_MASTER_KEY sur ton hébergeur
-  # config.require_master_key = true
+  # Déchiffrement des credentials en prod
+  config.require_master_key = true
 
   # --- Assets / fichiers statiques ---
-  # Laisse à false si ton reverse proxy sert les fichiers ; sinon active via variable.
   config.assets.compile = true
-  # Permettre à Rails de servir les fichiers statiques si RAILS_SERVE_STATIC_FILES=1
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # --- Active Storage ---
-  config.active_storage.service = :local
+  config.active_storage.service = :local  # (sur Heroku, stockage éphémère)
 
   # --- HTTPS & sécurité ---
   config.force_ssl = true
   config.ssl_options = { hsts: { expires: 1.year, preload: true, subdomains: true } }
 
   # --- Logs ---
-  config.logger = ActiveSupport::Logger.new(STDOUT)
-    .tap  { |l| l.formatter = ::Logger::Formatter.new }
-    .then { |l| ActiveSupport::TaggedLogging.new(l) }
-  config.log_tags  = [ :request_id ]
+  logger = ActiveSupport::Logger.new(STDOUT)
+  logger.formatter = ::Logger::Formatter.new
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+  config.log_tags  = [:request_id]
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # --- I18n / divers ---
   config.i18n.fallbacks = true
   config.active_support.report_deprecations = false
   config.active_record.dump_schema_after_migration = false
-  config.active_record.attributes_for_inspect = [ :id ]
+  config.active_record.attributes_for_inspect = [:id]
 
   # --- Action Mailer (SMTP Gmail) ---
-  config.action_mailer.perform_caching     = false
+  config.action_mailer.perform_caching       = false
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries    = true
 
-  # ⚠️ Remplace par le domaine de ton site déployé
-  config.action_mailer.default_url_options = { host: "www.ton-domaine.fr", protocol: "https" }
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch("MAILER_HOST", "portfolio-sami.herokuapp.com"),
+    protocol: "https"
+  }
+  config.action_mailer.asset_host = "https://#{ENV.fetch("MAILER_HOST", "portfolio-sami.herokuapp.com")}"
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -55,12 +55,12 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  # --- Hosts autorisés (évite Blocked host) ---
-  # Remplace/duplique selon ton domaine / sous-domaines
+  # --- Hosts autorisés ---
+  config.hosts << ENV["MAILER_HOST"] if ENV["MAILER_HOST"].present?
   config.hosts << "www.ton-domaine.fr"
   config.hosts << "ton-domaine.fr"
+  config.hosts << "portfolio-sami.herokuapp.com"
+  # Autorise uniquement ton domaine Heroku
+  config.hosts << "portfolio-sami-b5f77d3264a1.herokuapp.com"
 
-  # # Health check si besoin
-  # config.ssl_options = { redirect: { exclude: ->(r) { r.path == "/up" } } }
-  # config.host_authorization = { exclude: ->(r) { r.path == "/up" } }
 end
