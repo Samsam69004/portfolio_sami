@@ -25,14 +25,14 @@ Rails.application.configure do
   logger = ActiveSupport::Logger.new(STDOUT)
   logger.formatter = ::Logger::Formatter.new
   config.logger = ActiveSupport::TaggedLogging.new(logger)
-  config.log_tags  = [:request_id]
+  config.log_tags  = [ :request_id ]
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # --- I18n / divers ---
   config.i18n.fallbacks = true
   config.active_support.report_deprecations = false
   config.active_record.dump_schema_after_migration = false
-  config.active_record.attributes_for_inspect = [:id]
+  config.active_record.attributes_for_inspect = [ :id ]
 
   # --- Action Mailer (SMTP Gmail) ---
   config.action_mailer.perform_caching       = false
@@ -62,5 +62,7 @@ Rails.application.configure do
   config.hosts << "portfolio-sami.herokuapp.com"
   # Autorise uniquement ton domaine Heroku
   config.hosts << "portfolio-sami-b5f77d3264a1.herokuapp.com"
-
+  # Autoriser *.herokuapp.com + ton host d’env
+  config.hosts << /.*\.herokuapp\.com/
+  config.hosts << ENV["MAILER_HOST"] if ENV["MAILER_HOST"].present?
 end

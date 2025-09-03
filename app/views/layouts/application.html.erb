@@ -7,14 +7,14 @@
   <meta name="robots" content="<%= meta_robots %>">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="google-site-verification" content="k75yQfe4Kg3FGQ_hL7gDgmPXUtkIw7ynFTGrnrC--1I" />
-
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%# Google Search Console (prod seulement, via ENV) %>
-  <% if Rails.env.production? && ENV["GSC_META"] %>
+  <%# Google Search Console : une seule balise (ENV prioritaire, sinon valeur fixe) %>
+  <% if Rails.env.production? && ENV["GSC_META"].present? %>
     <meta name="google-site-verification" content="<%= ENV["GSC_META"] %>">
+  <% else %>
+    <meta name="google-site-verification" content="k75yQfe4Kg3FGQ_hL7gDgmPXUtkIw7ynFTGrnrC--1I">
   <% end %>
 
   <!-- Canonical -->
@@ -46,46 +46,61 @@
 
   <!-- Styles & JS -->
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "vendor/aos",  "data-turbo-track": "reload" %>
-  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <%# AOS: on importe via npm/esbuild, donc pas de vendor/aos.css pour éviter 404 %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true, type: "module" %>
 
-  <!-- Emplacement pour JSON-LD (Person, Breadcrumbs…) -->
+  <!-- Emplacement pour JSON-LD fourni par des vues/partials.
+       ⚠️ Si tu mets du inline ici via content_for, assure-toi de lui ajouter un nonce. -->
   <%= yield(:structured_data) if content_for?(:structured_data) %>
 
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Sami Chabane",
-  "url": "https://samichabane.com",
-  "jobTitle": "Développeur web junior",
-  "knowsAbout": ["Ruby on Rails", "HTML", "CSS", "Tailwind", "JavaScript"],
-  "sameAs": [
-    "https://github.com/Samsam69004",
-    "https://www.linkedin.com/in/sami-chabane-085881151/"
-  ]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Portfolio — Sami Chabane",
-  "url": "https://samichabane.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://samichabane.com/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
+  <!-- JSON-LD Person -->
+  <script type="application/ld+json" nonce="<%= content_security_policy_nonce %>">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Sami Chabane",
+    "url": "https://samichabane.com",
+    "jobTitle": "Développeur web junior",
+    "knowsAbout": ["Ruby on Rails", "HTML", "CSS", "Tailwind", "JavaScript"],
+    "sameAs": [
+      "https://github.com/Samsam69004",
+      "https://www.linkedin.com/in/sami-chabane-085881151/"
+    ]
   }
-}
-</script>
+  </script>
 
+  <!-- JSON-LD WebSite -->
+  <script type="application/ld+json" nonce="<%= content_security_policy_nonce %>">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Portfolio — Sami Chabane",
+    "url": "https://samichabane.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://samichabane.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <% if Rails.env.production? && ENV["HOTJAR_ID"].present? %>
+    <!-- Hotjar -->
+    <script nonce="<%= content_security_policy_nonce %>">
+      (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:<%= ENV["HOTJAR_ID"] %>,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+  <% end %>
 </head>
 
-
 <body class="bg-slate-50 text-slate-800">
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <header id="mainNav" data-shrink class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
 
       <!-- Logo + Nom -->
@@ -187,8 +202,8 @@
       </div>
     </div>
 
-    <!-- Animation du cœur -->
-    <style>
+    <!-- Animation du cœur (inline CSS autorisé via nonce) -->
+    <style nonce="<%= content_security_policy_nonce %>">
       @keyframes heartbeat {
         0%, 40%, 80%, 100% { transform: scale(1) }
         20%, 60% { transform: scale(1.22) }
