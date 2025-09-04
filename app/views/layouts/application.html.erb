@@ -23,7 +23,6 @@
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
-
   <!-- Open Graph -->
   <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
   <meta property="og:title" content="<%= meta_title %>">
@@ -85,14 +84,13 @@
   </script>
 
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZNW6V7JB7"></script>
-<script nonce="<%= content_security_policy_nonce %>">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-0ZNW6V7JB7');
-</script>
-
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZNW6V7JB7"></script>
+  <script nonce="<%= content_security_policy_nonce %>">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0ZNW6V7JB7');
+  </script>
 
   <% if Rails.env.production? && ENV["HOTJAR_ID"].present? %>
     <!-- Hotjar -->
@@ -107,26 +105,31 @@
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
   <% end %>
+
+  <!-- Respect des préférences de mouvement, + utilitaire scrollbar -->
+  <style nonce="<%= content_security_policy_nonce %>">
+    @media (prefers-reduced-motion: reduce) {
+      svg animate, svg animateTransform { display: none; }
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
-  <!-- Padding déplacé sur le header pour que le shrink soit visible -->
+  <!-- Header sticky -->
   <header id="mainNav" data-shrink
-    class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm md:backdrop-blur
-           border-b border-slate-200 transition-all duration-200 py-4">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-
+    class="sticky top-0 z-50 bg-white/90 md:backdrop-blur
+           border-b border-slate-200 transition-all duration-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3">
       <!-- Logo + Nom -->
-      <%= link_to root_path, class: "flex items-center gap-3" do %>
+      <%= link_to root_path, class: "shrink-0 flex items-center gap-3" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 256 256" aria-label="Logo SC animé">
-          <!-- Diamant animé -->
           <path d="M128 24 L38 112 L128 232 L218 112 Z"
                 fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
                 stroke-dasharray="100" stroke-dashoffset="100">
             <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite" />
           </path>
-
-          <!-- SC animé -->
           <text x="128" y="150" text-anchor="middle"
                 font-family="Inter, sans-serif"
                 font-weight="800" font-size="120" letter-spacing="-6" fill="#0f172a">
@@ -134,8 +137,6 @@
             <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" />
             <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2s" repeatCount="indefinite" additive="sum"/>
           </text>
-
-          <!-- </> animé -->
           <text x="128" y="210" text-anchor="middle"
                 font-family="monospace"
                 font-weight="700" font-size="40" fill="#0ea5e9">
@@ -146,21 +147,30 @@
         <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
       <% end %>
 
-      <nav aria-label="Navigation principale" class="hidden md:flex gap-8 text-lg font-semibold">
-        <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <!-- NAV centrale : visible partout, scrollable si ça déborde -->
+      <nav aria-label="Navigation principale"
+           class="flex-1 flex items-center justify-center font-semibold
+                  max-w-full overflow-x-auto no-scrollbar
+                  gap-4 text-base md:gap-8 md:text-lg">
+        <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
+        <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
+        <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
+        <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
+        <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
       </nav>
 
-      <!-- Bouton discuter -->
+      <!-- Bouton discuter (compact en mobile) -->
       <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
-        class: "inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-lg font-semibold text-white shadow hover:bg-sky-600 transition" %>
+        class: "shrink-0 inline-flex items-center rounded-xl bg-sky-500
+                px-3 py-2 text-sm md:px-4 md:py-2.5 md:text-lg
+                font-semibold text-white shadow hover:bg-sky-600 transition" %>
     </div>
   </header>
 
-  <%= yield %>
+  <!-- Contenu principal : évite le chevauchement sous la nav -->
+  <main class="pt-16 md:pt-20">
+    <%= yield %>
+  </main>
 
   <footer class="bg-white/90 backdrop-blur border-t border-slate-200">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4
