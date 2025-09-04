@@ -1,5 +1,6 @@
 # app/controllers/projects_controller.rb
 class ProjectsController < ApplicationController
+  respond_to :html
   before_action :load_projects, only: :index
   before_action :load_project,  only: :show
 
