@@ -25,7 +25,7 @@ Rails.application.configure do
     policy.child_src :self
 
     # Pas d’objets/plugins
-    policy.object_src  :none
+    policy.object_src :none
 
     # Empêche l’inclusion de TON site dans des iframes externes
     policy.frame_ancestors :self
