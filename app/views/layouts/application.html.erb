@@ -1,243 +1,149 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <title><%= meta_title %></title>
-  <meta name="description" content="<%= meta_description %>">
-  <meta name="robots" content="<%= meta_robots %>">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<%# --- PRELOAD de l'image HÉRO (LCP) --- %>
+<% content_for :lcp_image_url, image_url("hero.webp") %>
 
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
-  <%# Google Search Console : ENV prioritaire, sinon valeur fixe %>
-  <% if Rails.env.production? && ENV["GSC_META"].present? %>
-    <meta name="google-site-verification" content="<%= ENV["GSC_META"] %>">
-  <% else %>
-    <meta name="google-site-verification" content="k75yQfe4Kg3FGQ_hL7gDgmPXUtkIw7ynFTGrnrC--1I">
-  <% end %>
-
-  <!-- Canonical -->
-  <link rel="canonical" href="<%= canonical_url %>">
-
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
-  <meta property="og:title" content="<%= meta_title %>">
-  <meta property="og:description" content="<%= meta_description %>">
-  <meta property="og:url" content="<%= canonical_url %>">
-  <meta property="og:image" content="<%= meta_image %>">
-  <meta property="og:image:width"  content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="Portfolio — Sami Chabane">
-  <meta property="og:locale" content="fr_FR">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= meta_title %>">
-  <meta name="twitter:description" content="<%= meta_description %>">
-  <meta name="twitter:image" content="<%= meta_image %>">
-
-  <!-- Favicons -->
-  <%= favicon_link_tag "favicons/favicon.ico" %>
-  <link rel="icon" type="image/png" sizes="96x96" href="<%= asset_path("favicons/favicon-96x96.png") %>">
-  <link rel="apple-touch-icon" href="<%= asset_path("favicons/apple-touch-icon.png") %>">
-
-  <!-- Styles & JS -->
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true, type: "module" %>
-
-  <!-- Emplacement pour JSON-LD via content_for (penser au nonce si inline) -->
-  <%= yield(:structured_data) if content_for?(:structured_data) %>
-
-  <!-- JSON-LD Person -->
-  <script type="application/ld+json" nonce="<%= content_security_policy_nonce %>">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Sami Chabane",
-    "url": "https://samichabane.com",
-    "jobTitle": "Développeur web junior",
-    "knowsAbout": ["Ruby on Rails", "HTML", "CSS", "Tailwind", "JavaScript"],
-    "sameAs": [
-      "https://github.com/Samsam69004",
-      "https://www.linkedin.com/in/sami-chabane-085881151/"
-    ]
-  }
-  </script>
-
-  <!-- JSON-LD WebSite -->
-  <script type="application/ld+json" nonce="<%= content_security_policy_nonce %>">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Portfolio — Sami Chabane",
-    "url": "https://samichabane.com",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://samichabane.com/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZNW6V7JB7"></script>
-  <script nonce="<%= content_security_policy_nonce %>">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-0ZNW6V7JB7');
-  </script>
-
-  <% if Rails.env.production? && ENV["HOTJAR_ID"].present? %>
-    <!-- Hotjar -->
-    <script nonce="<%= content_security_policy_nonce %>">
-      (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:<%= ENV["HOTJAR_ID"] %>,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
-  <% end %>
-
-  <!-- Respect des préférences de mouvement, + utilitaire scrollbar -->
-  <style nonce="<%= content_security_policy_nonce %>">
-    @media (prefers-reduced-motion: reduce) {
-      svg animate, svg animateTransform { display: none; }
-    }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  </style>
-</head>
-
-<body class="bg-slate-50 text-slate-800">
-  <!-- Header sticky -->
-  <header id="mainNav" data-shrink
-    class="sticky top-0 z-50 bg-white/90 md:backdrop-blur
-           border-b border-slate-200 transition-all duration-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3">
-      <!-- Logo + Nom -->
-      <%= link_to root_path, class: "shrink-0 flex items-center gap-3" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 256 256" aria-label="Logo SC animé">
-          <path d="M128 24 L38 112 L128 232 L218 112 Z"
-                fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
-                stroke-dasharray="100" stroke-dashoffset="100">
-            <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite" />
-          </path>
-          <text x="128" y="150" text-anchor="middle"
-                font-family="Inter, sans-serif"
-                font-weight="800" font-size="120" letter-spacing="-6" fill="#0f172a">
-            SC
-            <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" />
-            <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2s" repeatCount="indefinite" additive="sum"/>
-          </text>
-          <text x="128" y="210" text-anchor="middle"
-                font-family="monospace"
-                font-weight="700" font-size="40" fill="#0ea5e9">
-            &lt;/&gt;
-            <animateTransform attributeName="transform" type="translate" values="0,0;0,-2;0,0" dur="2s" repeatCount="indefinite"/>
-          </text>
-        </svg>
-        <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
-      <% end %>
-
-      <!-- NAV centrale : visible partout, scrollable si ça déborde -->
-      <nav aria-label="Navigation principale"
-           class="flex-1 flex items-center justify-center font-semibold
-                  max-w-full overflow-x-auto no-scrollbar
-                  gap-4 text-base md:gap-8 md:text-lg">
-        <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
-        <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
-        <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
-        <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
-        <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition whitespace-nowrap" %>
-      </nav>
-
-      <!-- Bouton discuter (compact en mobile) -->
-      <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
-        class: "shrink-0 inline-flex items-center rounded-xl bg-sky-500
-                px-3 py-2 text-sm md:px-4 md:py-2.5 md:text-lg
-                font-semibold text-white shadow hover:bg-sky-600 transition" %>
-    </div>
-  </header>
-
-  <!-- Contenu principal : évite le chevauchement sous la nav -->
-  <main class="pt-16 md:pt-20">
-    <%= yield %>
-  </main>
-
-  <footer class="bg-white/90 backdrop-blur border-t border-slate-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4
-                flex flex-col gap-3
-                md:flex-row md:items-center md:justify-between">
-
-      <!-- Gauche : logo + nom -->
-      <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" aria-label="Logo SC">
-          <path d="M128 24 L38 112 L128 232 L218 112 Z" fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="128" y="150" text-anchor="middle" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" font-weight="800" font-size="110" letter-spacing="-6" fill="#0f172a">SC</text>
-        </svg>
-        <span class="font-semibold tracking-tight">Sami Chabane</span>
-      <% end %>
-
-      <!-- Milieu : liens de section -->
-      <nav aria-label="Liens de section"
-           class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">
-        <%= link_to "Projets",        root_path(anchor: "projects"),       data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Certifications", root_path(anchor: "certifications"), data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Passions",       root_path(anchor: "passions"),       data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "À propos",       root_path(anchor: "about"),          data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Contact",        root_path(anchor: "contact"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      </nav>
-
-      <!-- Droite : mention + réseaux -->
-      <div class="flex items-center gap-4">
-        <div class="group flex items-center gap-1 text-sm text-slate-500">
-          <span>Fait avec</span>
-          <span class="mx-1 inline-flex items-center justify-center text-red-500 animate-heart transition-transform will-change-transform group-hover:scale-125" aria-hidden="true">♥</span>
-          <span>par</span>
-          <%= link_to "Sami Chabane",
-            "https://www.linkedin.com/in/sami-chabane-085881151/",
-            target: "_blank", rel: "noopener",
-            class: "font-medium text-sky-600 hover:underline" %>
-        </div>
-
-        <!-- Icônes -->
-        <div class="flex items-center gap-3 text-slate-500">
-          <%= link_to "https://github.com/Samsam69004", target: "_blank", rel: "noopener",
-              class: "hover:text-sky-600 transition", aria: { label: "GitHub" } do %>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 .5A12 12 0 0 0 0 12.6c0 5.3 3.4 9.7 8.2 11.3.6.1.8-.3.8-.6v-2c-3.3.7-4-1.5-4-1.5-.6-1.4-1.5-1.8-1.5-1.8-1.2-.8.1-.8.1-.8 1.3.1 2 .9 2 .9 1.1 1.9 2.9 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.4-5.3-6a4.7 4.7 0 0 1 1.2-3.3 4.4 4.4 0 0 1 .1-3.2s1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.3.8.4 2.2.1 3.2a4.7 4.7 0 0 1 1.2 3.3c0 4.6-2.7 5.6-5.3 6 .4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6A12.1 12.1 0 0 0 24 12.6 12 12 0 0 0 12 .5z"/>
-            </svg>
-          <% end %>
-          <%= link_to "https://www.linkedin.com/in/sami-chabane-085881151/", target: "_blank", rel: "noopener",
-              class: "hover:text-sky-600 transition", aria: { label: "LinkedIn" } do %>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.9h.1a4.1 4.1 0 0 1 3.7-2.1c4 0 4.7 2.6 4.7 6v6H17V16c0-1.4 0-3.3-2-3.3s-2.3 1.5-2.3 3.2V21H9z"/>
-            </svg>
-          <% end %>
+<%# --- HERO (au-dessus du fold) --- %>
+<section id="hero" class="relative overflow-hidden bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-10 md:pt-14">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="space-y-4">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+          Développeur Web Full-Stack (Rails & Front)
+        </h1>
+        <p class="text-slate-600 text-lg">
+          Je conçois des sites modernes, rapides et maintenables. Voici une sélection de mes projets et compétences.
+        </p>
+        <div class="flex items-center gap-3">
+          <%= link_to "Voir mes projets", root_path(anchor: "projects"),
+              data: { turbo: false },
+              class: "inline-flex items-center rounded-xl bg-sky-500 px-4 py-2.5 text-white font-semibold shadow hover:bg-sky-600 transition" %>
+          <%= link_to "Me contacter", root_path(anchor: "contact"),
+              data: { turbo: false },
+              class: "inline-flex items-center rounded-xl border border-slate-300 px-4 py-2.5 font-semibold hover:border-slate-400 transition" %>
         </div>
       </div>
-    </div>
 
-    <!-- Animation du cœur (inline CSS autorisé via nonce) -->
-    <style nonce="<%= content_security_policy_nonce %>">
-      @keyframes heartbeat {
-        0%, 40%, 80%, 100% { transform: scale(1) }
-        20%, 60% { transform: scale(1.22) }
-      }
-      .animate-heart {
-        display: inline-block;
-        animation: heartbeat 1.6s ease-in-out infinite;
-        transition: transform .2s ease;
-      }
-    </style>
-  </footer>
-</body>
-</html>
+      <%# IMAGE HÉRO = LCP (fetchpriority high, dimensions fixées) %>
+      <div class="relative">
+        <%= image_tag "hero.webp",
+            alt: "Sami Chabane — Développeur web",
+            width: 1600, height: 1200,            # adapte aux vraies dimensions
+            fetchpriority: "high",
+            decoding: "async",
+            class: "w-full h-auto rounded-2xl shadow" %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# --- PROJETS --- %>
+<section id="projects" class="scroll-mt-20 py-16 md:py-24 bg-slate-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-8">Projets</h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <%# Exemple carte projet %>
+      <article class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200 hover:shadow transition">
+        <%= image_tag "projet1.webp",
+            alt: "Projet 1 — capture d’écran",
+            width: 800, height: 600,
+            loading: "lazy", decoding: "async",
+            class: "w-full h-auto rounded-xl mb-3" %>
+        <h3 class="font-semibold text-lg mb-1">Projet 1</h3>
+        <p class="text-sm text-slate-600 mb-3">Bref descriptif du projet, stack, objectifs.</p>
+        <div class="flex gap-3">
+          <%= link_to "Voir", "#", class: "text-sky-600 hover:underline" %>
+          <%= link_to "Code", "#", class: "text-slate-600 hover:underline" %>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200 hover:shadow transition">
+        <%= image_tag "projet2.webp",
+            alt: "Projet 2 — capture d’écran",
+            width: 800, height: 600,
+            loading: "lazy", decoding: "async",
+            class: "w-full h-auto rounded-xl mb-3" %>
+        <h3 class="font-semibold text-lg mb-1">Projet 2</h3>
+        <p class="text-sm text-slate-600 mb-3">Bref descriptif du projet, stack, objectifs.</p>
+        <div class="flex gap-3">
+          <%= link_to "Voir", "#", class: "text-sky-600 hover:underline" %>
+          <%= link_to "Code", "#", class: "text-slate-600 hover:underline" %>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200 hover:shadow transition">
+        <%= image_tag "projet3.webp",
+            alt: "Projet 3 — capture d’écran",
+            width: 800, height: 600,
+            loading: "lazy", decoding: "async",
+            class: "w-full h-auto rounded-xl mb-3" %>
+        <h3 class="font-semibold text-lg mb-1">Projet 3</h3>
+        <p class="text-sm text-slate-600 mb-3">Bref descriptif du projet, stack, objectifs.</p>
+        <div class="flex gap-3">
+          <%= link_to "Voir", "#", class: "text-sky-600 hover:underline" %>
+          <%= link_to "Code", "#", class: "text-slate-600 hover:underline" %>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<%# --- CERTIFICATIONS --- %>
+<section id="certifications" class="scroll-mt-20 py-16 md:py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-8">Certifications</h2>
+
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <li class="rounded-2xl p-4 border border-slate-200 bg-slate-50">Certif 1</li>
+      <li class="rounded-2xl p-4 border border-slate-200 bg-slate-50">Certif 2</li>
+      <li class="rounded-2xl p-4 border border-slate-200 bg-slate-50">Certif 3</li>
+    </ul>
+  </div>
+</section>
+
+<%# --- PASSIONS --- %>
+<section id="passions" class="scroll-mt-20 py-16 md:py-24 bg-slate-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-8">Passions</h2>
+    <p class="text-slate-700 max-w-3xl">Un paragraphe court + éventuellement une image lazy.</p>
+    <%= image_tag "passion.webp",
+        alt: "Passion",
+        width: 1200, height: 800,
+        loading: "lazy", decoding: "async",
+        class: "w-full h-auto rounded-2xl shadow mt-6" %>
+  </div>
+</section>
+
+<%# --- À PROPOS --- %>
+<section id="about" class="scroll-mt-20 py-16 md:py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-8">À propos</h2>
+    <div class="grid md:grid-cols-3 gap-6 items-start">
+      <div class="md:col-span-2 space-y-4 text-slate-700">
+        <p>Petit pitch perso (rails, JS, bonnes pratiques, etc.).</p>
+        <p>Valeur ajoutée, manière de travailler, stack préférée.</p>
+      </div>
+      <div>
+        <%= image_tag "portrait.webp",
+            alt: "Portrait de Sami Chabane",
+            width: 800, height: 1000,
+            loading: "lazy", decoding: "async",
+            class: "w-full h-auto rounded-2xl shadow" %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# --- CONTACT --- %>
+<section id="contact" class="scroll-mt-20 py-16 md:py-24 bg-slate-50">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Me contacter</h2>
+
+    <%# ton formulaire (existant) %>
+    <%= render "contacts/form" rescue nil %>
+
+    <%# ou un bloc direct si tu veux %>
+    <%#= form_with url: contacts_path, method: :post, data: { turbo: true }, class: "space-y-4" do |f| %>
+    <%#  ... %>
+    <%# end %>
+  </div>
+</section>
