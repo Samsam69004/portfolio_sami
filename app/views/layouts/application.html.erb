@@ -10,7 +10,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%# Google Search Console : une seule balise (ENV prioritaire, sinon valeur fixe) %>
+  <%# Google Search Console : ENV prioritaire, sinon valeur fixe %>
   <% if Rails.env.production? && ENV["GSC_META"].present? %>
     <meta name="google-site-verification" content="<%= ENV["GSC_META"] %>">
   <% else %>
@@ -26,6 +26,8 @@
   <meta property="og:description" content="<%= meta_description %>">
   <meta property="og:url" content="<%= canonical_url %>">
   <meta property="og:image" content="<%= meta_image %>">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Portfolio — Sami Chabane">
   <meta property="og:locale" content="fr_FR">
 
@@ -40,17 +42,15 @@
   <link rel="icon" type="image/png" sizes="96x96" href="<%= asset_path("favicons/favicon-96x96.png") %>">
   <link rel="apple-touch-icon" href="<%= asset_path("favicons/apple-touch-icon.png") %>">
 
-  <!-- (perf) préconnect -->
+  <!-- (perf) préconnect (garde seulement si tu utilises Google Fonts) -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <!-- Styles & JS -->
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  <%# AOS: on importe via npm/esbuild, donc pas de vendor/aos.css pour éviter 404 %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true, type: "module" %>
 
-  <!-- Emplacement pour JSON-LD fourni par des vues/partials.
-       ⚠️ Si tu mets du inline ici via content_for, assure-toi de lui ajouter un nonce. -->
+  <!-- Emplacement pour JSON-LD via content_for (penser au nonce si inline) -->
   <%= yield(:structured_data) if content_for?(:structured_data) %>
 
   <!-- JSON-LD Person -->
@@ -100,8 +100,11 @@
 </head>
 
 <body class="bg-slate-50 text-slate-800">
-  <header id="mainNav" data-shrink class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+  <!-- Padding déplacé sur le header pour que le shrink soit visible -->
+  <header id="mainNav" data-shrink
+    class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm md:backdrop-blur
+           border-b border-slate-200 transition-all duration-200 py-4">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
 
       <!-- Logo + Nom -->
       <%= link_to root_path, class: "flex items-center gap-3" do %>
@@ -133,7 +136,7 @@
         <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
       <% end %>
 
-      <nav class="hidden md:flex gap-8 text-lg font-semibold">
+      <nav aria-label="Navigation principale" class="hidden md:flex gap-8 text-lg font-semibold">
         <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
         <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
         <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
@@ -164,7 +167,8 @@
       <% end %>
 
       <!-- Milieu : liens de section -->
-      <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">
+      <nav aria-label="Liens de section"
+           class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">
         <%= link_to "Projets",        root_path(anchor: "projects"),       data: { turbo: false }, class: "hover:text-sky-600 transition" %>
         <%= link_to "Certifications", root_path(anchor: "certifications"), data: { turbo: false }, class: "hover:text-sky-600 transition" %>
         <%= link_to "Passions",       root_path(anchor: "passions"),       data: { turbo: false }, class: "hover:text-sky-600 transition" %>

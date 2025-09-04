@@ -162,30 +162,49 @@
 
 <!-- Section Certifications -->
 <section id="certifications" class="py-20 md:py-28 bg-white">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6"><!-- +1 cran de largeur -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <h2 data-aos="fade-up" class="text-3xl md:text-4xl font-bold mb-6">Certifications</h2>
     <p data-aos="fade-up" data-aos-delay="100" class="text-slate-600 mb-8">
       Voici mes diplômes et attestations, consultables directement.
     </p>
 
-    <div class="grid gap-10 md:grid-cols-2"><!-- gap +10 pour aérer -->
+    <div class="grid gap-10 md:grid-cols-2">
       <!-- Diplôme -->
       <div data-aos="fade-up" class="bg-white p-5 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-3">
           <h3 class="font-semibold text-lg">Diplôme — Le Wagon</h3>
-          <%= link_to "Télécharger", asset_path("diploma.pdf"),
+          <%= link_to "Télécharger",
+                asset_path("diploma.pdf"),
+                download: "diploma.pdf",
                 class: "text-sm px-3 py-1 rounded-full border hover:shadow",
                 target: "_blank", rel: "noopener" %>
         </div>
-        <iframe
-          src="<%= asset_path('diploma.pdf') %>#view=FitH&zoom=125"
-          loading="lazy"
-          class="w-full h-[32rem] sm:h-[38rem] lg:h-[46rem] rounded-xl border"
-          title="Diplôme Le Wagon (PDF)"></iframe>
-        <p class="mt-2 text-xs text-slate-500">
+
+        <!-- Mobile : lien direct (beaucoup de navigateurs n'affichent pas les PDF inline) -->
+        <p class="md:hidden mb-3">
+          Sur mobile, <%= link_to "ouvrir le PDF dans un nouvel onglet",
+                 asset_path("diploma.pdf"),
+                 target: "_blank", rel: "noopener",
+                 class: "text-sky-600 underline font-medium" %>.
+        </p>
+
+        <!-- ≥ md : iframe + skeleton + lazy-load -->
+        <div class="relative hidden md:block">
+          <div class="absolute inset-0 rounded-xl border bg-slate-100 animate-pulse"></div>
+          <iframe
+            data-src="<%= asset_path('diploma.pdf') %>#view=FitH&zoom=125"
+            loading="lazy"
+            title="Diplôme Le Wagon (PDF)"
+            class="relative w-full h-[38rem] lg:h-[46rem] rounded-xl border opacity-0 transition-opacity duration-300">
+          </iframe>
+        </div>
+
+        <p class="mt-2 text-xs text-slate-500 hidden md:block">
           Si le PDF ne s’affiche pas,
-          <%= link_to "ouvre-le dans un nouvel onglet", asset_path("diploma.pdf"),
-                target: "_blank", rel: "noopener", class: "underline" %>.
+          <%= link_to "ouvre-le dans un nouvel onglet",
+                asset_path("diploma.pdf"),
+                target: "_blank", rel: "noopener",
+                class: "underline" %>.
         </p>
       </div>
 
@@ -193,24 +212,42 @@
       <div data-aos="fade-up" data-aos-delay="150" class="bg-white p-5 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-3">
           <h3 class="font-semibold text-lg">Attestation de fin de formation</h3>
-          <%= link_to "Télécharger", asset_path("certificate_of_completion.pdf"),
+          <%= link_to "Télécharger",
+                asset_path("certificate_of_completion.pdf"),
+                download: "certificate_of_completion.pdf",
                 class: "text-sm px-3 py-1 rounded-full border hover:shadow",
                 target: "_blank", rel: "noopener" %>
         </div>
-        <iframe
-          src="<%= asset_path('certificate_of_completion.pdf') %>#view=FitH&zoom=125"
-          loading="lazy"
-          class="w-full h-[32rem] sm:h-[38rem] lg:h-[46rem] rounded-xl border"
-          title="Attestation de fin de formation (PDF)"></iframe>
-        <p class="mt-2 text-xs text-slate-500">
+
+        <p class="md:hidden mb-3">
+          Sur mobile, <%= link_to "ouvrir le PDF dans un nouvel onglet",
+                 asset_path("certificate_of_completion.pdf"),
+                 target: "_blank", rel: "noopener",
+                 class: "text-sky-600 underline font-medium" %>.
+        </p>
+
+        <div class="relative hidden md:block">
+          <div class="absolute inset-0 rounded-xl border bg-slate-100 animate-pulse"></div>
+          <iframe
+            data-src="<%= asset_path('certificate_of_completion.pdf') %>#view=FitH&zoom=125"
+            loading="lazy"
+            title="Attestation de fin de formation (PDF)"
+            class="relative w-full h-[38rem] lg:h-[46rem] rounded-xl border opacity-0 transition-opacity duration-300">
+          </iframe>
+        </div>
+
+        <p class="mt-2 text-xs text-slate-500 hidden md:block">
           Si le PDF ne s’affiche pas,
-          <%= link_to "ouvre-le dans un nouvel onglet", asset_path("certificate_of_completion.pdf"),
-                target: "_blank", rel: "noopener", class: "underline" %>.
+          <%= link_to "ouvre-le dans un nouvel onglet",
+                asset_path("certificate_of_completion.pdf"),
+                target: "_blank", rel: "noopener",
+                class: "underline" %>.
         </p>
       </div>
     </div>
   </div>
 </section>
+
 
 <section id="passions" class="py-16 md:py-24 bg-white border-t border-slate-200">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">

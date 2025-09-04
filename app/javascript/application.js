@@ -145,60 +145,75 @@ function initTilt() {
   });
 }
 
-// ---- Navbar compacte (#mainNav[data-shrink]) ----
+// === Navbar compacte (shrink) — padding sur <header id="mainNav"> ===
 function initShrinkingNav() {
-  const nav = document.querySelector("#mainNav[data-shrink]");
+  const nav = document.querySelector('#mainNav[data-shrink]');
   if (!nav || nav.dataset.bound) return;
-  nav.dataset.bound = "1";
+  nav.dataset.bound = '1';
 
   const apply = () => {
     const scrolled = window.scrollY > 16;
-    nav.classList.toggle("shadow-md", scrolled);
-    nav.classList.toggle("py-2", scrolled);
-    nav.classList.toggle("py-4", !scrolled);
+    nav.classList.toggle('shadow-md', scrolled);
+    nav.classList.toggle('py-2', scrolled);
+    nav.classList.toggle('py-4', !scrolled);
   };
+
   apply();
 
   const onScroll = () => apply();
-  document.addEventListener("scroll", onScroll, { passive: true });
+  // Écouter le scroll sur window (plus fiable Android)
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-  document.addEventListener(
-    "turbo:before-cache",
-    () => document.removeEventListener("scroll", onScroll),
-    { once: true }
-  );
+  // Nettoyage avant mise en cache Turbo
+  document.addEventListener('turbo:before-cache', () => {
+    window.removeEventListener('scroll', onScroll);
+    delete nav.dataset.bound;
+  }, { once: true });
 }
 
-// ---- Lazy-load iframes (data-src) ----
+// Appels init (Turbo + classique)
+window.addEventListener('turbo:load', initShrinkingNav);
+document.addEventListener('DOMContentLoaded', initShrinkingNav);
+
+
+// === Lazy-load des iframes PDF (avec fallback vieux navigateurs) ===
 function initLazyIframes() {
   const frames = document.querySelectorAll("iframe[data-src]");
   if (!frames.length) return;
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (!isIntersecting) return;
-        const src = target.getAttribute("data-src");
-        target.addEventListener(
-          "load",
-          () => {
-            target.classList.remove("opacity-0");
-            const skeleton = target.parentElement?.querySelector(".animate-pulse");
-            if (skeleton) skeleton.remove();
-          },
-          { once: true }
-        );
-        target.setAttribute("src", src);
-        target.setAttribute("loading", "lazy");
-        io.unobserve(target);
-      });
-    },
-    { rootMargin: "200px" }
-  );
+  const load = (el) => {
+    const src = el.getAttribute("data-src");
+    if (!src) return;
+    el.addEventListener("load", () => {
+      el.classList.remove("opacity-0");
+      const skeleton = el.parentElement?.querySelector(".animate-pulse");
+      if (skeleton) skeleton.remove();
+    }, { once: true });
+    el.setAttribute("src", src);
+    el.setAttribute("loading", "lazy");
+  };
 
-  frames.forEach((f) => io.observe(f));
+  // Fallback : pas d'IntersectionObserver => on charge tout de suite
+  if (!("IntersectionObserver" in window)) {
+    frames.forEach(load);
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (!isIntersecting) return;
+      load(target);
+      io.unobserve(target);
+    });
+  }, { rootMargin: "200px" });
+
+  frames.forEach(f => io.observe(f));
   document.addEventListener("turbo:before-cache", () => io.disconnect(), { once: true });
 }
+
+window.addEventListener("turbo:load", initLazyIframes);
+document.addEventListener("DOMContentLoaded", initLazyIframes);
+
 
 // ---- Carousels ----
 function initCarousel(root) {

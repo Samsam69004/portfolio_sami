@@ -4,19 +4,25 @@ Rails.application.configure do
     policy.default_src :self
     policy.base_uri    :self
 
-    # 🔐 Scripts: notre domaine + Hotjar (+ https)
+    # Scripts (Hotjar inclus)
     policy.script_src  :self, :https, "https://static.hotjar.com", "https://script.hotjar.com"
 
-    # 🔌 Requêtes XHR/WebSocket pour Hotjar
-    policy.connect_src :self, :https, "https://*.hotjar.com", "https://*.hotjar.io",
-                                 "wss://*.hotjar.com",  "wss://*.hotjar.io"
+    # XHR/WebSocket (Hotjar)
+    policy.connect_src :self, :https,
+                       "https://*.hotjar.com", "https://*.hotjar.io",
+                       "wss://*.hotjar.com",  "wss://*.hotjar.io"
 
-    # 🖼️ Images (y compris data: pour favicons, Hotjar)
+    # Images (incl. data: pour favicons)
     policy.img_src     :self, :https, :data, "https://*.hotjar.com", "https://*.hotjar.io"
 
-    # 🅰️ Fonts/CSS locaux
+    # Fonts/CSS locaux
     policy.font_src    :self, :data
     policy.style_src   :self
+
+    # ✅ iframes autorisées depuis TON site (pour les PDF)
+    policy.frame_src :self
+    # ✅ compat vieux Safari/iOS (iPhone 6 & co)
+    policy.child_src :self
 
     # Pas d’objets/plugins
     policy.object_src  :none
@@ -25,7 +31,7 @@ Rails.application.configure do
     policy.frame_ancestors :self
   end
 
-  # ✅ Active un nonce pour autoriser les <script> inline signés
+  # Nonces pour <script>/<style> inline signés
   config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(16) }
   config.content_security_policy_report_only = false
 end
