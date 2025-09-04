@@ -20,6 +20,10 @@
   <!-- Canonical -->
   <link rel="canonical" href="<%= canonical_url %>">
 
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+
   <!-- Open Graph -->
   <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
   <meta property="og:title" content="<%= meta_title %>">
@@ -41,10 +45,6 @@
   <%= favicon_link_tag "favicons/favicon.ico" %>
   <link rel="icon" type="image/png" sizes="96x96" href="<%= asset_path("favicons/favicon-96x96.png") %>">
   <link rel="apple-touch-icon" href="<%= asset_path("favicons/apple-touch-icon.png") %>">
-
-  <!-- (perf) préconnect (garde seulement si tu utilises Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <!-- Styles & JS -->
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -83,6 +83,16 @@
     }
   }
   </script>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZNW6V7JB7"></script>
+<script nonce="<%= content_security_policy_nonce %>">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0ZNW6V7JB7');
+</script>
+
 
   <% if Rails.env.production? && ENV["HOTJAR_ID"].present? %>
     <!-- Hotjar -->
