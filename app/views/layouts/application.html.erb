@@ -1,5 +1,5 @@
 <%# --- PRELOAD de l'image HÉRO (LCP) --- %>
-<% content_for :lcp_image_url, image_url("hero.webp") %>
+<%= image_tag "sami.jpg", alt: "Sami" %>
 
 <%# --- HERO (au-dessus du fold) --- %>
 <section id="hero" class="relative overflow-hidden bg-white">
@@ -24,7 +24,7 @@
 
       <%# IMAGE HÉRO = LCP (fetchpriority high, dimensions fixées) %>
       <div class="relative">
-        <%= image_tag "hero.webp",
+        <%= image_tag "sami.jpg",
             alt: "Sami Chabane — Développeur web",
             width: 1600, height: 1200,            # adapte aux vraies dimensions
             fetchpriority: "high",
