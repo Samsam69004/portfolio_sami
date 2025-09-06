@@ -41,3 +41,6 @@
 
 # SQLite temp files
 /db/*.sqlite3*
+
+# SQLite temp files
+/db/*.sqlite3*
