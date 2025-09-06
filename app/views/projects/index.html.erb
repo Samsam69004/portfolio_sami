@@ -3,10 +3,9 @@
 
 <% content_for :og_title, "Portfolio — Sami Chabane" %>
 <% content_for :og_description, "Développeur web junior à Lyon. Découvrez mes projets Ruby on Rails, JavaScript, Tailwind." %>
+
 <section id="home" class="relative overflow-hidden">
   <div class="absolute inset-0 -z-10 bg-gradient-to-b from-slate-50 to-white"></div>
-
-  <!-- fond particules discret (si le JS "stars" est en place) -->
   <canvas id="stars" class="absolute inset-0 -z-10"></canvas>
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28 grid md:grid-cols-12 gap-10 items-center">
@@ -16,7 +15,7 @@
         Développeur Web Junior — Ruby on Rails & Front-end
       </p>
 
-      <h1 id="hero-title"  data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-6xl font-extrabold leading-tight text-slate-900">
+      <h1 id="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-6xl font-extrabold leading-tight text-slate-900">
         Des sites <span class="text-sky-500">modernes, sécurisés, maintenables</span>
       </h1>
 
@@ -28,7 +27,6 @@
         En parallèle, je renforce mes compétences en <strong>Java & Angular</strong> pour élargir ma stack.
       </p>
 
-      <!-- preuves techniques -->
       <ul class="mt-6 grid sm:grid-cols-2 gap-2 text-slate-700">
         <li data-aos="fade-up" data-aos-delay="220" class="flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Architecture MVC (Rails)
@@ -44,23 +42,12 @@
         </li>
       </ul>
 
-      <!-- CTAs -->
       <div data-aos="fade-up" data-aos-delay="400" class="mt-8 flex flex-wrap gap-3">
-        <a href="#projects"
-           class="rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">
-          Voir mes projets
-        </a>
-        <a href="#contact"
-           class="rounded-xl border border-slate-300 px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">
-          Me contacter
-        </a>
-        <a href="/CV_Sami_Chabane.pdf" target="_blank" rel="noopener noreferrer"
-           class="rounded-xl border border-slate-300 px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">
-          📄 Télécharger mon CV
-        </a>
+        <a href="#projects" class="rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">Voir mes projets</a>
+        <a href="#contact" class="rounded-xl border border-slate-300 px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">Me contacter</a>
+        <a href="/CV_Sami_Chabane.pdf" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-slate-300 px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">📄 Télécharger mon CV</a>
       </div>
 
-      <!-- badges techno -->
       <ul data-aos="fade-up" data-aos-delay="460" class="mt-8 flex flex-wrap gap-3 text-sm text-slate-600">
         <li class="px-3 py-1 rounded-full bg-white border">Ruby on Rails</li>
         <li class="px-3 py-1 rounded-full bg-white border">MVC</li>
@@ -74,7 +61,6 @@
         <li class="px-3 py-1 rounded-full bg-white border">Community Management</li>
       </ul>
 
-      <!-- flèche scroll vers la suite -->
       <a href="#projects" class="mt-10 inline-block animate-bounce text-slate-400" aria-label="Faire défiler">⌄</a>
     </div>
 
@@ -86,13 +72,10 @@
           alt="Poste de travail développement web"
           class="w-full h-80 object-cover">
       </div>
-      <p class="mt-3 text-xs text-slate-500 text-center">
-        Code propre, sécurisé et pensé pour durer.
-      </p>
+      <p class="mt-3 text-xs text-slate-500 text-center">Code propre, sécurisé et pensé pour durer.</p>
     </div>
   </div>
 </section>
-
 
 <section id="projects" class="py-16 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -115,48 +98,37 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-10">
       <% @projects.each_with_index do |p, i| %>
         <%= link_to project_path(p), class: "group block rounded-2xl overflow-hidden bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl" do %>
+          <!-- Image 16:9 -->
+          <div class="relative aspect-[16/9] bg-slate-100">
+            <% images = p.image_url.to_s.split(",") %>
+            <%= image_tag images.first.strip, alt: p.title, class: "absolute inset-0 h-full w-full object-cover" %>
+            <div class="absolute inset-0 ring-0 ring-sky-500/0 group-hover:ring-2 group-hover:ring-sky-500/40 transition"></div>
+          </div>
 
-      <!-- Image grande 16:9 -->
-      <!-- Image grande 16:9 -->
-        <div class="relative aspect-[16/9] bg-slate-100">
-          <% images = p.image_url.to_s.split(",") %>
-          <%= image_tag images.first.strip,
-            alt: p.title,
-            class: "absolute inset-0 h-full w-full object-cover" %>
-          <div class="absolute inset-0 ring-0 ring-sky-500/0 group-hover:ring-2 group-hover:ring-sky-500/40 transition"></div>
-        </div>
+          <!-- Contenu -->
+          <div class="p-5">
+            <h3 class="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-sky-600 transition"><%= p.title %></h3>
+            <% if p.subtitle.present? %>
+              <p class="mt-1 text-slate-600"><%= p.subtitle %></p>
+            <% end %>
+            <% if p.description.present? %>
+              <p class="mt-3 text-slate-600"><%= truncate(p.description, length: 220) %></p>
+            <% end %>
 
-
-      <!-- Contenu -->
-      <div class="p-5">
-        <h3 class="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-sky-600 transition">
-          <%= p.title %>
-        </h3>
-        <% if p.subtitle.present? %>
-          <p class="mt-1 text-slate-600"><%= p.subtitle %></p>
+            <div class="mt-4 flex flex-wrap gap-2 text-sm">
+              <% p.techs.to_s.split(",").map(&:strip).each do |t| %>
+                <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200"><%= t %></span>
+              <% end %>
+              <% if p.url.present? %>
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">En ligne</span>
+              <% else %>
+                <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">Non hébergé</span>
+              <% end %>
+            </div>
+          </div>
         <% end %>
-        <% if p.description.present? %>
-          <p class="mt-3 text-slate-600">
-            <%= truncate(p.description, length: 220) %>
-          </p>
-        <% end %>
-
-        <div class="mt-4 flex flex-wrap gap-2 text-sm">
-          <% p.techs.to_s.split(",").map(&:strip).each do |t| %>
-            <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200"><%= t %></span>
-          <% end %>
-          <% if p.url.present? %>
-            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">En ligne</span>
-          <% else %>
-            <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">Non hébergé</span>
-          <% end %>
-        </div>
-      </div>
-
-    <% end %>
-  <% end %>
-</div>
-
+      <% end %>
+    </div>
   </div>
 </section>
 
@@ -164,47 +136,19 @@
 <section id="certifications" class="py-20 md:py-28 bg-white">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <h2 data-aos="fade-up" class="text-3xl md:text-4xl font-bold mb-6">Certifications</h2>
-    <p data-aos="fade-up" data-aos-delay="100" class="text-slate-600 mb-8">
-      Voici mes diplômes et attestations, consultables directement.
-    </p>
+    <p data-aos="fade-up" data-aos-delay="100" class="text-slate-600 mb-8">Voici mes diplômes et attestations, consultables directement.</p>
 
     <div class="grid gap-10 md:grid-cols-2">
       <!-- Diplôme -->
       <div data-aos="fade-up" class="bg-white p-5 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-3">
           <h3 class="font-semibold text-lg">Diplôme — Le Wagon</h3>
-          <%= link_to "Télécharger",
-                asset_path("diploma.pdf"),
-                download: "diploma.pdf",
-                class: "text-sm px-3 py-1 rounded-full border hover:shadow",
-                target: "_blank", rel: "noopener" %>
+          <%= link_to "Télécharger", asset_path("diploma.pdf"), class: "text-sm px-3 py-1 rounded-full border hover:shadow", target: "_blank", rel: "noopener" %>
         </div>
-
-        <!-- Mobile : lien direct (beaucoup de navigateurs n'affichent pas les PDF inline) -->
-        <p class="md:hidden mb-3">
-          Sur mobile, <%= link_to "ouvrir le PDF dans un nouvel onglet",
-                 asset_path("diploma.pdf"),
-                 target: "_blank", rel: "noopener",
-                 class: "text-sky-600 underline font-medium" %>.
-        </p>
-
-        <!-- ≥ md : iframe + skeleton + lazy-load -->
-        <div class="relative hidden md:block">
-          <div class="absolute inset-0 rounded-xl border bg-slate-100 animate-pulse"></div>
-          <iframe
-            data-src="<%= asset_path('diploma.pdf') %>#view=FitH&zoom=125"
-            loading="lazy"
-            title="Diplôme Le Wagon (PDF)"
-            class="relative w-full h-[38rem] lg:h-[46rem] rounded-xl border opacity-0 transition-opacity duration-300">
-          </iframe>
-        </div>
-
-        <p class="mt-2 text-xs text-slate-500 hidden md:block">
+        <iframe src="<%= asset_path('diploma.pdf') %>#view=FitH&zoom=125" loading="lazy" class="w-full h-[32rem] sm:h-[38rem] lg:h-[46rem] rounded-xl border" title="Diplôme Le Wagon (PDF)"></iframe>
+        <p class="mt-2 text-xs text-slate-500">
           Si le PDF ne s’affiche pas,
-          <%= link_to "ouvre-le dans un nouvel onglet",
-                asset_path("diploma.pdf"),
-                target: "_blank", rel: "noopener",
-                class: "underline" %>.
+          <%= link_to "ouvre-le dans un nouvel onglet", asset_path("diploma.pdf"), target: "_blank", rel: "noopener", class: "underline" %>.
         </p>
       </div>
 
@@ -212,46 +156,20 @@
       <div data-aos="fade-up" data-aos-delay="150" class="bg-white p-5 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-3">
           <h3 class="font-semibold text-lg">Attestation de fin de formation</h3>
-          <%= link_to "Télécharger",
-                asset_path("certificate_of_completion.pdf"),
-                download: "certificate_of_completion.pdf",
-                class: "text-sm px-3 py-1 rounded-full border hover:shadow",
-                target: "_blank", rel: "noopener" %>
+          <%= link_to "Télécharger", asset_path("certificate_of_completion.pdf"), class: "text-sm px-3 py-1 rounded-full border hover:shadow", target: "_blank", rel: "noopener" %>
         </div>
-
-        <p class="md:hidden mb-3">
-          Sur mobile, <%= link_to "ouvrir le PDF dans un nouvel onglet",
-                 asset_path("certificate_of_completion.pdf"),
-                 target: "_blank", rel: "noopener",
-                 class: "text-sky-600 underline font-medium" %>.
-        </p>
-
-        <div class="relative hidden md:block">
-          <div class="absolute inset-0 rounded-xl border bg-slate-100 animate-pulse"></div>
-          <iframe
-            data-src="<%= asset_path('certificate_of_completion.pdf') %>#view=FitH&zoom=125"
-            loading="lazy"
-            title="Attestation de fin de formation (PDF)"
-            class="relative w-full h-[38rem] lg:h-[46rem] rounded-xl border opacity-0 transition-opacity duration-300">
-          </iframe>
-        </div>
-
-        <p class="mt-2 text-xs text-slate-500 hidden md:block">
+        <iframe src="<%= asset_path('certificate_of_completion.pdf') %>#view=FitH&zoom=125" loading="lazy" class="w-full h-[32rem] sm:h-[38rem] lg:h-[46rem] rounded-xl border" title="Attestation de fin de formation (PDF)"></iframe>
+        <p class="mt-2 text-xs text-slate-500">
           Si le PDF ne s’affiche pas,
-          <%= link_to "ouvre-le dans un nouvel onglet",
-                asset_path("certificate_of_completion.pdf"),
-                target: "_blank", rel: "noopener",
-                class: "underline" %>.
+          <%= link_to "ouvre-le dans un nouvel onglet", asset_path("certificate_of_completion.pdf"), target: "_blank", rel: "noopener", class: "underline" %>.
         </p>
       </div>
     </div>
   </div>
 </section>
 
-
 <section id="passions" class="py-16 md:py-24 bg-white border-t border-slate-200">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
-
     <!-- Texte -->
     <div data-aos="fade-right">
       <h2 class="text-2xl md:text-4xl font-bold text-sky-500">Mes passions</h2>
@@ -260,121 +178,64 @@
       </p>
 
       <ul class="mt-6 space-y-4 text-slate-700">
-        <li class="flex items-center gap-3">
-          <span class="text-2xl">⚽</span>
-          <span>Le <strong>football</strong> : école de la combativité et du goût de l’effort collectif. Je suis passionné par ce sport depuis toujours et je supporte avec fierté l’<strong>Olympique Lyonnais</strong>, mon club de cœur.</span>
-        </li>
-        <li class="flex items-center gap-3">
-          <span class="text-2xl">🎾</span>
-          <span>Le <strong>tennis</strong> : un sport où le mental fait toute la différence. J’y retrouve la capacité à rester concentré, à gérer la pression et à ne jamais lâcher, même dans les moments difficiles.</span>
-        </li>
-        <li class="flex items-center gap-3">
-          <span class="text-2xl">🌍</span>
-          <span>Les <strong>voyages</strong> : l’envie de découvrir de nouvelles cultures, de sortir de ma zone de confort et d’élargir ma vision du monde.</span>
-        </li>
+        <li class="flex items-center gap-3"><span class="text-2xl">⚽</span><span>Le <strong>football</strong> : école de la combativité et du goût de l’effort collectif. Je supporte l’<strong>Olympique Lyonnais</strong>.</span></li>
+        <li class="flex items-center gap-3"><span class="text-2xl">🎾</span><span>Le <strong>tennis</strong> : rester concentré, gérer la pression et ne jamais lâcher.</span></li>
+        <li class="flex items-center gap-3"><span class="text-2xl">🌍</span><span>Les <strong>voyages</strong> : découvrir, sortir de la zone de confort, élargir ma vision du monde.</span></li>
       </ul>
     </div>
 
-    <!-- Image illustrant les voyages -->
+    <!-- Carrousel -->
     <div class="md:col-span-1">
-  <div class="relative h-[540px] overflow-hidden rounded-3xl shadow-xl ring-1 ring-slate-200 bg-white"
-       data-carousel
-       data-autoplay="true"
-       data-interval="3500"
-       data-pause-on-hover="true">
-    <% slides = [
-      asset_path("passions/voyage.jpg"),     # ta photo actuelle
-      asset_path("passions/ol.jpg"),         # logo/photo de l'OL
-      asset_path("passions/tennis.jpg")      # photo tennis
-    ] %>
-
-    <% slides.each_with_index do |src, i| %>
-      <img src="<%= src %>"
-           alt="Mes passions — slide <%= i+1 %> / <%= slides.size %>"
-           class="carousel-slide <%= i.zero? ? '' : 'hidden' %> w-full h-[540px] object-cover">
-    <% end %>
-
-    <!-- Flèches -->
-    <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 px-3 py-1.5 text-3xl bg-white/70 rounded-full"
-            aria-label="Précédent" data-action="prev">‹</button>
-    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 text-3xl bg-white/70 rounded-full"
-            aria-label="Suivant" data-action="next">›</button>
-
-    <!-- Dots -->
-    <div class="absolute bottom-3 inset-x-0 flex justify-center gap-2">
-      <% slides.each_with_index do |_, i| %>
-        <button type="button" class="carousel-dot h-2.5 w-2.5 rounded-full <%= i.zero? ? 'bg-slate-900' : 'bg-slate-300' %>"
-                aria-label="Aller à l’image <%= i+1 %>" data-goto="<%= i %>"></button>
-      <% end %>
+      <div class="relative h-[540px] overflow-hidden rounded-3xl shadow-xl ring-1 ring-slate-200 bg-white"
+           data-carousel data-autoplay="true" data-interval="3500" data-pause-on-hover="true">
+        <% slides = [ asset_path("passions/voyage.jpg"), asset_path("passions/ol.jpg"), asset_path("passions/tennis.jpg") ] %>
+        <% slides.each_with_index do |src, i| %>
+          <img src="<%= src %>" alt="Mes passions — slide <%= i+1 %> / <%= slides.size %>"
+               class="carousel-slide <%= i.zero? ? '' : 'hidden' %> w-full h-[540px] object-cover">
+        <% end %>
+        <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 px-3 py-1.5 text-3xl bg-white/70 rounded-full" aria-label="Précédent" data-action="prev">‹</button>
+        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 text-3xl bg-white/70 rounded-full" aria-label="Suivant" data-action="next">›</button>
+        <div class="absolute bottom-3 inset-x-0 flex justify-center gap-2">
+          <% slides.each_with_index do |_, i| %>
+            <button type="button" class="carousel-dot h-2.5 w-2.5 rounded-full <%= i.zero? ? 'bg-slate-900' : 'bg-slate-300' %>" aria-label="Aller à l’image <%= i+1 %>" data-goto="<%= i %>"></button>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
 </section>
-
-
-
 
 <section id="about" class="py-16 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
-
     <!-- Texte -->
     <div data-aos="fade-right">
       <h2 class="text-2xl md:text-4xl font-bold">À propos</h2>
       <p class="mt-4 text-slate-700 leading-relaxed">
-        Je m’appelle <strong>Sami Chabane</strong>, développeur web junior basé à <strong>Lyon</strong>.
-        J’aide les <strong>indépendants, artisans et associations</strong> à gagner en crédibilité en ligne
-        grâce à des sites <strong>simples, beaux et efficaces</strong>.
+        Je m’appelle <strong>Sami Chabane</strong>, développeur web junior basé à <strong>Lyon</strong>. J’aide les <strong>indépendants, artisans et associations</strong> à gagner en crédibilité en ligne grâce à des sites <strong>simples, beaux et efficaces</strong>.
       </p>
-
       <p class="mt-4 text-slate-700 leading-relaxed">
-        Mon approche : <strong>clarifier votre message</strong>, <strong>mettre en valeur</strong> ce qui vous différencie,
-        et <strong>livrer rapidement</strong> un résultat propre que vous serez fier de montrer.
+        Mon approche : <strong>clarifier votre message</strong>, <strong>mettre en valeur</strong> ce qui vous différencie, et <strong>livrer rapidement</strong> un résultat propre que vous serez fier de montrer.
       </p>
-
       <p class="mt-4 text-slate-700 leading-relaxed">
-        Aujourd’hui en formation <strong>Java & Angular</strong>, je m’appuie sur des bases solides en
-        <strong>Ruby, HTML, CSS</strong> et un peu de <strong>JavaScript</strong>.
-        Avec mon expérience en <strong>community management</strong>, je combine technique et communication
-        pour proposer des sites web à la fois <strong>efficaces</strong> et <strong>impactants</strong>.
+        Aujourd’hui en formation <strong>Java & Angular</strong>, je m’appuie sur des bases solides en <strong>Ruby, HTML, CSS</strong> et un peu de <strong>JavaScript</strong>. Avec mon expérience en <strong>community management</strong>, je combine technique et communication pour proposer des sites web à la fois <strong>efficaces</strong> et <strong>impactants</strong>.
       </p>
 
-      <!-- Boutons -->
       <div class="mt-6 flex gap-3">
-        <a href="/CV_Sami_Chabane.pdf"
-           target="_blank" rel="noopener noreferrer"
-           class="rounded-xl border px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">
-           📄 Télécharger mon CV
-        </a>
-        <a href="#contact"
-           class="rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">
-           Me contacter
-        </a>
+        <a href="/CV_Sami_Chabane.pdf" target="_blank" rel="noopener noreferrer" class="rounded-xl border px-5 py-3 hover:border-sky-600 hover:text-sky-600 transition">📄 Télécharger mon CV</a>
+        <a href="#contact" class="rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition">Me contacter</a>
       </div>
     </div>
 
     <!-- Photo -->
-<div data-aos="zoom-in" class="flex justify-center">
-  <div class="relative inline-block group">
-    <!-- halo doux au survol -->
-    <div class="absolute -inset-1 rounded-full bg-sky-500/20 blur opacity-0 transition duration-300
-                group-hover:opacity-100" aria-hidden="true"></div>
-
-    <img src="<%= asset_path 'sami.jpg' %>" alt="Sami Chabane"
-         class="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-sky-500 shadow-lg
-                transition duration-300 group-hover:scale-105 group-hover:shadow-2xl group-hover:border-sky-600">
-  </div>
-</div>
-
-
+    <div data-aos="zoom-in" class="flex justify-center">
+      <div class="relative inline-block group">
+        <div class="absolute -inset-1 rounded-full bg-sky-500/20 blur opacity-0 transition duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+        <img src="<%= asset_path 'projects/sami.jpg' %>" alt="Sami Chabane"
+             class="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-sky-500 shadow-lg transition duration-300 group-hover:scale-105 group-hover:shadow-2xl group-hover:border-sky-600">
+      </div>
+    </div>
   </div>
 </section>
-
-<section id="passions" class="py-16 md:py-24 bg-white border-t border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
-  </div>
-</section>
-
 
 <section id="contact" class="py-16 md:py-24 bg-white border-t border-slate-200">
   <div class="max-w-3xl mx-auto px-4 sm:px-6">
@@ -383,68 +244,68 @@
       Un projet, une question, une opportunité d’alternance ? Écrivez-moi :
     </p>
 
-    <%# --- messages flash : n’afficher que ceux venant du contact --- %>
     <% if flash[:_from] == "contact" %>
       <% flash.each do |type, msg| %>
         <% next if type.to_s == "_from" %>
-        <% klass =
-             case type.to_s
-             when "notice"      then "bg-emerald-50 text-emerald-700"
-             when "alert","error" then "bg-rose-50 text-rose-700"
-             else "bg-slate-100 text-slate-700"
-             end %>
+        <% klass = case type.to_s
+                    when "notice" then "bg-emerald-50 text-emerald-700"
+                    when "alert","error" then "bg-rose-50 text-rose-700"
+                    else "bg-slate-100 text-slate-700" end %>
         <div class="mt-4 rounded-xl px-4 py-3 <%= klass %>"><%= msg %></div>
       <% end %>
-      <%# On consomme le tag pour éviter qu’il réapparaisse ailleurs %>
       <% flash.delete(:_from) %>
     <% end %>
 
-    <%= form_with url: contact_path,
-                  method: :post,
-                  scope: nil,               # => params[:name], [:email], [:subject], [:message]
-                  data: { turbo: false },   # en dev: soumission classique (plus simple à débug)
-                  local: true,
-                  html: { class: "mt-8 grid gap-4" } do |f| %>
-
+    <%= form_with url: contact_path, method: :post, scope: nil, data: { turbo: false }, local: true, html: { class: "mt-8 grid gap-4" } do |f| %>
       <div class="grid sm:grid-cols-2 gap-4">
-        <%= f.text_field :name,
-              placeholder: "Votre nom",
-              required: true,
-              autocomplete: "name",
-              class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
-
-        <%= f.email_field :email,
-              placeholder: "Votre email",
-              required: true,
-              autocomplete: "email",
-              class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
+        <%= f.text_field :name, placeholder: "Votre nom", required: true, autocomplete: "name", class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
+        <%= f.email_field :email, placeholder: "Votre email", required: true, autocomplete: "email", class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
       </div>
 
-      <%= f.text_field :subject,
-            placeholder: "Sujet",
-            class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
-
-      <%= f.text_area :message,
-            rows: 5,
-            required: true,
-            placeholder: "Votre message",
-            class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
-
-      <%# Honeypot anti-bots : invisible pour humains %>
+      <%= f.text_field :subject, placeholder: "Sujet", class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
+      <%= f.text_area :message, rows: 5, required: true, placeholder: "Votre message", class: "w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500" %>
       <%= f.text_field :website, value: "", autocomplete: "off", tabindex: -1, class: "hidden" %>
 
-      <%= f.submit "Envoyer",
-            class: "justify-self-center inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition" %>
+      <%= f.submit "Envoyer", class: "justify-self-center inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-white shadow hover:bg-sky-600 transition" %>
     <% end %>
   </div>
 </section>
 
-
-<script nonce="<%= content_security_policy_nonce %>">
-  // année footer
+<script>
   document.addEventListener("DOMContentLoaded", () => {
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
+
+    // mini carrousel
+    const root = document.querySelector("[data-carousel]");
+    if (!root) return;
+    const slides = [...root.querySelectorAll(".carousel-slide")];
+    const dots   = [...root.querySelectorAll(".carousel-dot")];
+    let i = 0, timer;
+
+    const show = (n) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => s.classList.toggle("hidden", k !== i));
+      dots.forEach((d, k) => d.classList.toggle("bg-slate-900", k === i));
+      dots.forEach((d, k) => d.classList.toggle("bg-slate-300", k !== i));
+    };
+
+    root.querySelector("[data-action='prev']")?.addEventListener("click", () => show(i-1));
+    root.querySelector("[data-action='next']")?.addEventListener("click", () => show(i+1));
+    dots.forEach((d, k) => d.addEventListener("click", () => show(k)));
+
+    const autoplay = root.dataset.autoplay === "true";
+    const interval = Number(root.dataset.interval || 3500);
+    const pauseOnHover = root.dataset.pauseOnHover === "true";
+
+    const start = () => { if (autoplay) timer = setInterval(() => show(i+1), interval); };
+    const stop  = () => { if (timer) clearInterval(timer); };
+
+    if (pauseOnHover) {
+      root.addEventListener("mouseenter", stop);
+      root.addEventListener("mouseleave", start);
+    }
+    start();
+    show(0);
   });
 </script>
-
