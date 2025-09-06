@@ -100,73 +100,46 @@
 </head>
 
 <body class="bg-slate-50 text-slate-800">
-  <header id="mainNav" data-shrink class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+<header id="mainNav" class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <!-- Ligne du haut : 3 colonnes (logo | liens centrés | bouton) -->
+    <div class="grid grid-cols-[auto_1fr_auto] items-center gap-6 py-3">
+      <!-- Col 1 : logo + nom -->
+      <div class="flex items-center gap-3 min-w-0">
+        <%= link_to root_path, class: "flex items-center gap-3 shrink-0" do %>
+          <%= image_tag "projects/logo-sc-animated-diamond.svg",
+                alt: "Logo SC", width: 40, height: 40, class: "spin-logo shrink-0" %>
+          <span class="text-lg sm:text-xl font-bold tracking-tight">Sami Chabane</span>
+        <% end %>
+      </div>
 
-    <!-- Logo + Nom -->
-    <%= link_to root_path, class: "flex items-center gap-3" do %>
-      <!-- ton SVG logo inchangé -->
-      <%= image_tag "projects/logo-sc-animated-diamond.svg",
-              alt: "Logo SC", class: "h-8 w-8" %>
-      <!-- ... -->
-      <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
-    <% end %>
+      <!-- Col 2 : liens (centrés sur desktop) -->
+      <nav class="hidden md:flex justify-center items-center gap-6 text-[15px] font-semibold">
+        <%= link_to "Projets",        root_path(anchor: "projects"),       data: { turbo: false }, class: "hover:text-sky-600" %>
+        <%= link_to "Certifications", root_path(anchor: "certifications"), data: { turbo: false }, class: "hover:text-sky-600" %>
+        <%= link_to "Passions",       root_path(anchor: "passions"),       data: { turbo: false }, class: "hover:text-sky-600" %>
+        <%= link_to "À propos",       root_path(anchor: "about"),          data: { turbo: false }, class: "hover:text-sky-600" %>
+        <%= link_to "Contact",        root_path(anchor: "contact"),        data: { turbo: false }, class: "hover:text-sky-600" %>
+      </nav>
 
-    <!-- Boutons à droite -->
-    <div class="flex items-center gap-3">
-      <!-- Bouton hamburger (mobile seulement) -->
-      <button id="menuBtn"
-              class="md:hidden inline-flex items-center justify-center rounded-xl border border-slate-300 p-2 hover:border-sky-600 hover:text-sky-600"
-              aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
-        <!-- icône -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-
-      <!-- Bouton Discuter (toujours visible) -->
-      <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
-        class: "hidden sm:inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-lg font-semibold text-white shadow hover:bg-sky-600 transition md:inline-flex" %>
+      <!-- Col 3 : bouton -->
+      <div class="justify-self-end">
+        <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
+              class: "inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-white font-semibold shadow hover:bg-sky-600 transition" %>
+      </div>
     </div>
-  </div>
 
-  <!-- Nav desktop -->
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
-    <nav class="hidden md:flex gap-8 text-lg font-semibold py-2">
-      <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+    <!-- Bande de liens mobile (2e ligne) -->
+    <nav class="md:hidden -mx-2 px-2 pb-2 flex items-center gap-4 overflow-x-auto text-[15px] font-semibold">
+      <%= link_to "Projets",        root_path(anchor: "projects"),       data: { turbo: false }, class: "py-2 whitespace-nowrap hover:text-sky-600" %>
+      <%= link_to "Certifications", root_path(anchor: "certifications"), data: { turbo: false }, class: "py-2 whitespace-nowrap hover:text-sky-600" %>
+      <%= link_to "Passions",       root_path(anchor: "passions"),       data: { turbo: false }, class: "py-2 whitespace-nowrap hover:text-sky-600" %>
+      <%= link_to "À propos",       root_path(anchor: "about"),          data: { turbo: false }, class: "py-2 whitespace-nowrap hover:text-sky-600" %>
+      <%= link_to "Contact",        root_path(anchor: "contact"),        data: { turbo: false }, class: "py-2 whitespace-nowrap hover:text-sky-600" %>
     </nav>
   </div>
+</header>
 
-  <!-- Nav mobile (panneau déroulant) -->
-  <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200">
-    <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 grid gap-2 text-base font-semibold">
-      <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
-      <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
-      <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
-      <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
-      <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
-      <%= link_to "Discuter",       root_path(anchor: "contact"),         data: { turbo: false },
-            class: "mt-2 inline-flex items-center justify-center rounded-xl bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-600 transition" %>
-    </nav>
-  </div>
-  </header>
-
-<!-- Toggle JS (respecte ta CSP avec nonce) -->
-<script nonce="<%= content_security_policy_nonce %>">
-  (() => {
-    const btn = document.getElementById('menuBtn');
-    const menu = document.getElementById('mobileMenu');
-    if (!btn || !menu) return;
-    btn.addEventListener('click', () => {
-      const open = !menu.classList.toggle('hidden');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-  })();
-</script>
 
 
   <%= yield %>
@@ -178,12 +151,11 @@
 
       <!-- Gauche : logo + nom -->
       <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" aria-label="Logo SC">
-          <path d="M128 24 L38 112 L128 232 L218 112 Z" fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="128" y="150" text-anchor="middle" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" font-weight="800" font-size="110" letter-spacing="-6" fill="#0f172a">SC</text>
-        </svg>
+        <%= image_tag "projects/logo-sc-animated-diamond.svg",
+              alt: "Logo SC", width: 28, height: 28, class: "spin-logo" %>
         <span class="font-semibold tracking-tight">Sami Chabane</span>
       <% end %>
+
 
       <!-- Milieu : liens de section -->
       <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm md:text-base font-medium">

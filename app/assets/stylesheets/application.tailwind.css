@@ -31,3 +31,11 @@ turbo-progress-bar {
   }
 }
 
+
+@keyframes sc-spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+.spin-logo {
+  display: inline-block;
+  transform-origin: 50% 50%;
+  animation: sc-spin 3s linear infinite;
+}
+
