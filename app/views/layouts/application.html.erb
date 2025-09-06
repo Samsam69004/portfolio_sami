@@ -101,51 +101,73 @@
 
 <body class="bg-slate-50 text-slate-800">
   <header id="mainNav" data-shrink class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
 
-      <!-- Logo + Nom -->
-      <%= link_to root_path, class: "flex items-center gap-3" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 256 256" aria-label="Logo SC animé">
-          <!-- Diamant animé -->
-          <path d="M128 24 L38 112 L128 232 L218 112 Z"
-                fill="none" stroke="#0ea5e9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
-                stroke-dasharray="100" stroke-dashoffset="100">
-            <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite" />
-          </path>
+    <!-- Logo + Nom -->
+    <%= link_to root_path, class: "flex items-center gap-3" do %>
+      <!-- ton SVG logo inchangé -->
+      <%= image_tag "projects/logo-sc-animated-diamond.svg",
+              alt: "Logo SC", class: "h-8 w-8" %>
+      <!-- ... -->
+      <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
+    <% end %>
 
-          <!-- SC animé -->
-          <text x="128" y="150" text-anchor="middle"
-                font-family="Inter, sans-serif"
-                font-weight="800" font-size="120" letter-spacing="-6" fill="#0f172a">
-            SC
-            <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" />
-            <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="2s" repeatCount="indefinite" additive="sum"/>
-          </text>
-
-          <!-- </> animé -->
-          <text x="128" y="210" text-anchor="middle"
-                font-family="monospace"
-                font-weight="700" font-size="40" fill="#0ea5e9">
-            &lt;/&gt;
-            <animateTransform attributeName="transform" type="translate" values="0,0;0,-2;0,0" dur="2s" repeatCount="indefinite"/>
-          </text>
+    <!-- Boutons à droite -->
+    <div class="flex items-center gap-3">
+      <!-- Bouton hamburger (mobile seulement) -->
+      <button id="menuBtn"
+              class="md:hidden inline-flex items-center justify-center rounded-xl border border-slate-300 p-2 hover:border-sky-600 hover:text-sky-600"
+              aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
+        <!-- icône -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
-        <span class="text-xl font-bold tracking-tight">Sami Chabane</span>
-      <% end %>
+      </button>
 
-      <nav class="hidden md:flex gap-8 text-lg font-semibold">
-        <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-        <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition" %>
-      </nav>
-
-      <!-- Bouton discuter -->
+      <!-- Bouton Discuter (toujours visible) -->
       <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
-        class: "inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-lg font-semibold text-white shadow hover:bg-sky-600 transition" %>
+        class: "hidden sm:inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-lg font-semibold text-white shadow hover:bg-sky-600 transition md:inline-flex" %>
     </div>
+  </div>
+
+  <!-- Nav desktop -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <nav class="hidden md:flex gap-8 text-lg font-semibold py-2">
+      <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+      <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "hover:text-sky-600 transition" %>
+    </nav>
+  </div>
+
+  <!-- Nav mobile (panneau déroulant) -->
+  <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 grid gap-2 text-base font-semibold">
+      <%= link_to "Projets",        root_path(anchor: "projects"),        data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
+      <%= link_to "Certifications", root_path(anchor: "certifications"),  data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
+      <%= link_to "Passions",       root_path(anchor: "passions"),        data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
+      <%= link_to "À propos",       root_path(anchor: "about"),           data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
+      <%= link_to "Contact",        root_path(anchor: "contact"),         data: { turbo: false }, class: "py-2 hover:text-sky-600 transition" %>
+      <%= link_to "Discuter",       root_path(anchor: "contact"),         data: { turbo: false },
+            class: "mt-2 inline-flex items-center justify-center rounded-xl bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-600 transition" %>
+    </nav>
+  </div>
   </header>
+
+<!-- Toggle JS (respecte ta CSP avec nonce) -->
+<script nonce="<%= content_security_policy_nonce %>">
+  (() => {
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = !menu.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  })();
+</script>
+
 
   <%= yield %>
 
