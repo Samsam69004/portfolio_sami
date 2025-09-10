@@ -86,19 +86,22 @@
     </div>
     <div class="rounded-2xl ring-1 ring-slate-200 bg-white p-4">
       <p class="text-sm text-slate-500">Statut</p>
-      <p class="mt-1 font-semibold text-slate-900">Non hébergé</p>
+      <% text, klass = project_status(@project) %>
+      <p class="mt-1 font-semibold <%= klass %>"><%= text %></p>
     </div>
   </section>
 
   <!-- Description (toujours affichée) -->
-  <section class="mt-8">
-    <h2 class="text-2xl font-bold tracking-tight">Description</h2>
-    <div class="prose prose-slate max-w-none mt-4">
-      <% desc = (@project.description.presence || project_description_fallback(@project)).to_s.strip %>
-      <% desc = "Présentation du projet, objectifs, choix techniques et points forts UX/UI. Priorité à la performance et au SEO de base." if desc.blank? %>
-      <%= simple_format desc %>
-    </div>
-  </section>
+<section class="mt-8">
+  <h2 class="text-2xl font-bold tracking-tight">Description</h2>
+  <div class="prose prose-slate max-w-none mt-4">
+    <% desc = (@project.description.presence || project_description_fallback(@project)).to_s.strip %>
+    <% desc = "Présentation du projet, objectifs, choix techniques et points forts UX/UI. Priorité à la performance et au SEO de base." if desc.blank? %>
+    <%= simple_format desc %>
+  </div>
+</section>
+
+
 
   <!-- Fonctionnalités -->
   <% features = project_features(@project) %>
@@ -191,11 +194,10 @@
         Je conçois des sites élégants, rapides et pensés pour la conversion. Parlons de votre besoin. 💬
       </p>
       <%= link_to "Me contacter", root_path(anchor: "contact"),
-          class: "mt-4 inline-flex items-center rounded-xl px-4 py-2.5 font-semibold shadow
-                  bg-slate-900 text-white focus:outline-none focus:ring-2 focus:ring-offset-2
-                  focus:ring-slate-400 transition",
-          style:  "background-color: #{c2};
-                  border: 1px solid color-mix(in srgb, #{c2} 35%, white);" %>
+  class: "mt-4 inline-flex items-center rounded-xl px-4 py-2.5 text-white font-semibold shadow transition
+          bg-[#111827] hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400" %>
+
+
 
     </div>
   </section>

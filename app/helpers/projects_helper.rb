@@ -1,17 +1,34 @@
 module ProjectsHelper
   # ---------- IMAGES ----------
+  # 1re image (URL absolue ou asset)
   def project_image_src(project)
-    raw = project.image_url.to_s.strip
+    raw = project.image_url.to_s
     return "" if raw.blank?
-    first = raw.split(",").map(&:strip).reject(&:blank?).first
+
+    first = raw.split(/[,;\n]/).map(&:strip).reject(&:blank?).first
     return first if first =~ /\Ahttps?:|^data:/
     asset_path(first)
   end
 
+  # Liste d’images prêtes à l’affichage
   def project_image_list(project)
     raw = project.image_url.to_s
     return [] if raw.blank?
-    raw.split(",").map(&:strip).reject(&:blank?).map { |p| p =~ /\Ahttps?:|^data:/ ? p : asset_path(p) }
+
+    raw.split(/[,;\n]/)
+       .map(&:strip)
+       .reject(&:blank?)
+       .map { |p| p =~ /\Ahttps?:|^data:/ ? p : asset_path(p) }
+  end
+
+  # ---------- STATUT HÉBERGEMENT ----------
+  def project_status(project)
+    url = project.url.to_s.strip
+    return [ "Non hébergé", "text-slate-900" ] if url.blank?
+
+    # extrait un host propre (sans protocole, sans /path, sans www.)
+    host = url.sub(/\Ahttps?:\/\//, "").sub(/\Awww\./, "").sub(/\/.*$/, "")
+    [ "En ligne (#{host})", "text-emerald-600" ]
   end
 
   # ---------- FONCTIONNALITÉS ----------
@@ -143,7 +160,8 @@ module ProjectsHelper
     %w[#0ea5e9 #6366f1 #a78bfa]
   end
 
-  # ---------- DESCRIPTION DE SECOURS ----------
+  # ---------- DESCRIPTIONS ----------
+  # Fallback “générique”
   def project_description_fallback(project)
     slug  = project.slug.to_s.downcase
     title = project.title.to_s.downcase
@@ -171,34 +189,33 @@ module ProjectsHelper
     ).strip
   end
 
+  # Chaîne finale utilisée dans la vue
   def project_description_text(project)
-  slug = project.slug.to_s.downcase
+    slug = project.slug.to_s.downcase
 
-  # Descriptions explicites (si tu laisses le champ DB vide)
-  hardcoded = {
-    "tripmates" => %(
-      Application de groupe pour organiser des sorties/voyages : création de
-      sondages (budget, dates, destination, hébergements), discussion, récap
-      et répartition. Rôle full-stack : modèles, vues, style et logique front.
-    ).strip,
-    "site-psy" => %(
-      Site clair et rassurant pour présenter l’approche APsySE, le parcours,
-      le cabinet et permettre un contact simple. Travail sur la lisibilité,
-      la structure des contenus et la mise en valeur visuelle.
-    ).strip
-  }
+    hardcoded = {
+      "tripmates" => %(
+        Application de groupe pour organiser des sorties/voyages : création de
+        sondages (budget, dates, destination, hébergements), discussion, récap
+        et répartition. Rôle full-stack : modèles, vues, style et logique front.
+      ).strip,
+      "site-psy" => %(
+        Site clair et rassurant pour présenter l’approche APsySE, le parcours,
+        le cabinet et permettre un contact simple. Travail sur la lisibilité,
+        la structure des contenus et la mise en valeur visuelle.
+      ).strip
+    }
 
-  # 1) si le champ est vide, on prend la version “officielle” si dispo
-  return hardcoded[slug] if project.description.to_s.strip.blank? && hardcoded.key?(slug)
+    # 1) si DB vide et description “officielle” existe, on l’utilise
+    return hardcoded[slug] if project.description.to_s.strip.blank? && hardcoded.key?(slug)
 
-  # 2) sinon on prend ce qui est en base
-  desc = project.description.to_s.strip
-  return desc unless desc.blank?
+    # 2) sinon ce qui est en base
+    desc = project.description.to_s.strip
+    return desc if desc.present?
 
-  # 3) sinon on retombe sur ton fallback heuristique
-  project_description_fallback(project)
-end
-
+    # 3) sinon fallback heuristique
+    project_description_fallback(project)
+  end
 
   private
 
