@@ -93,16 +93,12 @@ function initStars() {
   rafId = requestAnimationFrame(frame);
 
   // Cleanup avant mise en cache Turbo
-  document.addEventListener(
-    "turbo:before-cache",
-    () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", onResize);
-      // reset width/height pour éviter canvas fantôme
-      c.width = c.width;
-    },
-    { once: true }
-  );
+  document.addEventListener("turbo:before-cache", () => {
+    cancelAnimationFrame(rafId);
+    window.removeEventListener("resize", onResize);
+    // reset width/height pour éviter canvas fantôme
+    c.width = c.width;
+  }, { once: true });
 }
 
 // ---- Tilt 3D léger ----
@@ -133,19 +129,15 @@ function initTilt() {
     card.addEventListener("mousemove", onMove);
     ["mouseleave", "blur"].forEach((ev) => card.addEventListener(ev, reset));
 
-    document.addEventListener(
-      "turbo:before-cache",
-      () => {
-        card.removeEventListener("mousemove", onMove);
-        ["mouseleave", "blur"].forEach((ev) => card.removeEventListener(ev, reset));
-        reset();
-      },
-      { once: true }
-    );
+    document.addEventListener("turbo:before-cache", () => {
+      card.removeEventListener("mousemove", onMove);
+      ["mouseleave", "blur"].forEach((ev) => card.removeEventListener(ev, reset));
+      reset();
+    }, { once: true });
   });
 }
 
-// === Navbar compacte (shrink) — padding sur <header id="mainNav"> ===
+// === Navbar compacte (shrink) ===
 function initShrinkingNav() {
   const nav = document.querySelector('#mainNav[data-shrink]');
   if (!nav || nav.dataset.bound) return;
@@ -161,22 +153,15 @@ function initShrinkingNav() {
   apply();
 
   const onScroll = () => apply();
-  // Écouter le scroll sur window (plus fiable Android)
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Nettoyage avant mise en cache Turbo
   document.addEventListener('turbo:before-cache', () => {
     window.removeEventListener('scroll', onScroll);
     delete nav.dataset.bound;
   }, { once: true });
 }
 
-// Appels init (Turbo + classique)
-window.addEventListener('turbo:load', initShrinkingNav);
-document.addEventListener('DOMContentLoaded', initShrinkingNav);
-
-
-// === Lazy-load des iframes PDF (avec fallback vieux navigateurs) ===
+// ---- Lazy-load des iframes ----
 function initLazyIframes() {
   const frames = document.querySelectorAll("iframe[data-src]");
   if (!frames.length) return;
@@ -193,7 +178,6 @@ function initLazyIframes() {
     el.setAttribute("loading", "lazy");
   };
 
-  // Fallback : pas d'IntersectionObserver => on charge tout de suite
   if (!("IntersectionObserver" in window)) {
     frames.forEach(load);
     return;
@@ -210,10 +194,6 @@ function initLazyIframes() {
   frames.forEach(f => io.observe(f));
   document.addEventListener("turbo:before-cache", () => io.disconnect(), { once: true });
 }
-
-window.addEventListener("turbo:load", initLazyIframes);
-document.addEventListener("DOMContentLoaded", initLazyIframes);
-
 
 // ---- Carousels ----
 function initCarousel(root) {
@@ -238,6 +218,7 @@ function initCarousel(root) {
       d.classList.toggle("bg-slate-300", idx !== i);
     });
   };
+
   const show = (n) => {
     i = (n + slides.length) % slides.length;
     update();
@@ -253,12 +234,7 @@ function initCarousel(root) {
     if (e.key === "ArrowRight") show(i + 1);
   });
 
-  const stop = () => {
-    if (timer) {
-      clearInterval(timer);
-      timer = null;
-    }
-  };
+  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
   const start = () => {
     if (!autoplay) return;
     stop();
@@ -275,19 +251,11 @@ function initCarousel(root) {
   update();
   start();
 
-  document.addEventListener(
-    "turbo:before-cache",
-    () => {
-      stop();
-    },
-    { once: true }
-  );
+  document.addEventListener("turbo:before-cache", () => stop(), { once: true });
 }
 
 function initCarousels() {
-  document
-    .querySelectorAll('[id^="carousel-"],[data-carousel]')
-    .forEach((root) => initCarousel(root));
+  document.querySelectorAll('[id^="carousel-"],[data-carousel]').forEach(initCarousel);
 }
 
 // ---- Boot ----

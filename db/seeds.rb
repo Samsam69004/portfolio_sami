@@ -48,7 +48,7 @@ projects = [
   title: "Création de logo pour la brasserie Chez Nino",
   subtitle: "Identité visuelle et branding",
   description: "Quatre propositions de logo, design moderne et adaptable.",
-  techs: "Illustrator, Photoshop",
+  techs: "Illustrator, Photoshop, Canva",
   image_url: "projects/chez-nino-logo1.jpg,projects/chez-nino-logo2.jpg,projects/chez-nino-logo3.jpg,projects/chez-nino-logo4.jpg",
   slug: "chez-nino-logo",
   published: true
