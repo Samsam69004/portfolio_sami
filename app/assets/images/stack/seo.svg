@@ -1,0 +1,14 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg width="256" height="256" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SEO on-page">
+  <!-- couleur principale -->
+  <g fill="#0284C7">
+    <!-- barres -->
+    <rect x="3" y="12" width="3" height="9" rx="1"></rect>
+    <rect x="8.5" y="9" width="3" height="12" rx="1"></rect>
+    <rect x="14" y="14" width="3" height="7" rx="1"></rect>
+    <!-- loupe (anneau) -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M17 2.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5zm0 2a3.25 3.25 0 1 1 0 6.5 3.25 3.25 0 0 1 0-6.5z"></path>
+    <!-- manche -->
+    <rect x="19.5" y="12.2" width="1.9" height="6.2" rx="0.95" transform="rotate(45 19.5 12.2)"></rect>
+  </g>
+</svg>

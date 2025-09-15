@@ -1,0 +1,5 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Heroku">
+  <rect width="256" height="256" rx="32" fill="#79589F"></rect>
+  <path fill="#ffffff" d="M80 70h32v48h32V70h32v116h-32v-40h-32v40H80z"></path>
+  <path fill="#ffffff" d="M184 78c-8 8-14 16-18 26l18 6c4-9 10-16 18-23v-9h-18z" opacity=".9"></path>
+</svg>

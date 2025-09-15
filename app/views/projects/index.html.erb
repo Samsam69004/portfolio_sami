@@ -91,38 +91,53 @@
     </header>
 
     <% stack = [
-      { name: "Ruby on Rails",  icon: :rails,  note: "MVC, sécurité, ActiveAdmin" },
-      { name: "JavaScript (ES6)", icon: :js,   note: "Interactions front" },
-      { name: "HTML5",          icon: :html,  note: "Sémantique & accessibilité" },
-      { name: "CSS3 / Tailwind",icon: :css,   note: "UI propre, responsive" },
-      { name: "Git & GitHub",   icon: :git,   note: "Versionning & workflow" },
-      { name: "REST API",       icon: :api,   note: "Intégrations & services" }
-    ] %>
+        { name: "Ruby on Rails",    icon: :rails,   note: "MVC, sécurité, ActiveAdmin" },
+        { name: "JavaScript (ES6)", icon: :js,      note: "Interactions front" },
+        { name: "HTML5",            icon: :html,    note: "Sémantique & accessibilité" },
+        { name: "CSS3 / Tailwind",  icon: :css,     note: "UI propre, responsive" },
+        { name: "Git & GitHub",     icon: :git,     note: "Versionning & workflow" },
+        { name: "Heroku",           icon: :heroku,  note: "Déploiement Rails" },
+        { name: "PostgreSQL",       icon: :db,      note: "Base de données relationnelle" },
+        { name: "SEO on-page",      icon: :seo,     note: "Balises, méta, JSON-LD, perfs" },
+        { name: "REST API",         icon: :api,     note: "Intégrations & services" }
+] %>
+
 
     <ul class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
       <% stack.each_with_index do |t, i| %>
         <li class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lg transition hover:-translate-y-0.5"
             data-aos="fade-up" data-aos-delay="<%= i*80 %>">
           <div class="flex items-start gap-4">
+            <!-- Icône -->
             <div class="grid place-items-center h-14 w-14 rounded-xl bg-sky-50 ring-1 ring-sky-100">
-              <% case t[:icon]
-                when :rails %>
+              <% case t[:icon] %>
+                <% when :rails %>
                   <%= image_tag "stack/rails.png", alt: "Logo Ruby on Rails", class: "h-8 w-8" %>
                 <% when :js %>
-                  <svg viewBox="0 0 448 512" class="h-8 w-8 text-yellow-500 fill-current"><path d="M0 32v448h448V32H0zm244 350c0 43-26 63-63 63-33 0-53-17-63-38l34-21c7 12 13 22 27 22 14 0 23-5 23-26V224h42v158z"/></svg>
+                  <%= image_tag "stack/js.svg", alt: "Logo JavaScript", class: "h-8 w-8" %>
                 <% when :html %>
                   <svg viewBox="0 0 384 512" class="h-8 w-8 text-orange-500 fill-current"><path d="M0 32l34 384 158 44 158-44 34-384H0zm308 127H124l5 57h173l-11 121-83 23-83-23-6-65h41l3 34 45 12 45-12 5-55H83L73 96h238l-3 63z"/></svg>
                 <% when :css %>
                   <svg viewBox="0 0 384 512" class="h-8 w-8 text-sky-600 fill-current"><path d="M0 32l34 384 158 44 158-44 34-384H0zm308 96l-3 32H126l5 57h170l-12 131-95 26-95-26-6-65h41l3 34 57 15 57-15 6-68H118l-10-121h200z"/></svg>
                 <% when :git %>
-                  <svg viewBox="0 0 256 256" class="h-8 w-8 text-rose-500 fill-current"><path d="M251.6 121.1L134.9 4.4c-5.9-5.9-15.4-5.9-21.3 0L92.3 25.7l27.1 27.1c6-2 12.9-.7 17.7 4.1 4.8 4.8 6.2 11.7 4.1 17.7l26.1 26.1c6-2 12.9-.7 17.7 4.1 7 7 7 18.3 0 25.3-7 7-18.3 7-25.3 0-4.9-4.9-6.3-12-4-18l-24.2-24.2v63.6a18 18 0 1012 16.9V135l24.2 24.2a18 18 0 1025.3-25.3c-4.9-4.9-12-6.3-18-4L170 103c2.2-6 .8-12.8-4.1-17.7-4.8-4.8-11.7-6.1-17.7-4.1L92.3 25.7 4.4 113.6c-5.9 5.9-5.9 15.4 0 21.3l116.7 116.7c5.9 5.9 15.4 5.9 21.3 0l109.2-109.2c5.9-5.8 5.9-15.4 0-21.3z"/></svg>
+                  <%= image_tag "stack/github.svg", alt: "Logo Git", class: "h-8 w-8" %>
+                <% when :heroku %>
+                  <%= image_tag "stack/heroku.svg", alt: "Logo Heroku", class: "h-8 w-8" %>
+                <% when :db %>
+                  <svg viewBox="0 0 24 24" class="h-8 w-8 text-sky-700 fill-current" aria-hidden="true">
+                    <path d="M12 2c-4.418 0-8 1.79-8 4v12c0 2.21 3.582 4 8 4s8-1.79 8-4V6c0-2.21-3.582-4-8-4Zm0 2c3.314 0 6 .895 6 2s-2.686 2-6 2-6-.895-6-2 2.686-2 6-2Zm0 6c3.314 0 6-.895 6-2v2c0 1.105-2.686 2-6 2s-6-.895-6-2V8c0 1.105 2.686 2 6 2Zm0 4c3.314 0 6-.895 6-2v2c0 1.105-2.686 2-6 2s-6-.895-6-2v-2c0 1.105 2.686 2 6 2Zm0 4c3.314 0 6-.895 6-2v2c0 1.105-2.686 2-6 2s-6-.895-6-2v-2c0 1.105 2.686 2 6 2Z"/>
+                  </svg>
+                <% when :seo %>
+                  <%= image_tag "stack/seo.svg", alt: "Logo SEO", class: "h-8 w-8" %>
                 <% when :api %>
                   <svg viewBox="0 0 512 512" class="h-8 w-8 text-sky-600 fill-current"><path d="M256 112a56 56 0 100 112 56 56 0 000-112zM32 240h96v32H32zm352 0h96v32h-96zM256 368a56 56 0 100-112 56 56 0 000 112z"/></svg>
               <% end %>
             </div>
-            <div class="pt-1">
-              <p class="text-base font-semibold text-slate-900"><%= t[:name] %></p>
-              <p class="text-sm text-slate-600"><%= t[:note] %></p>
+
+            <!-- Texte de la carte -->
+            <div>
+              <h3 class="text-base font-semibold text-slate-900"><%= t[:name] %></h3>
+              <p class="text-sm text-slate-500"><%= t[:note] %></p>
             </div>
           </div>
         </li>
@@ -146,7 +161,6 @@
     </div>
   </div>
 </section>
-
 
 <section id="projects" class="scroll-mt-24 py-16 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -341,42 +355,3 @@
     <% end %>
   </div>
 </section>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const y = document.getElementById("year");
-    if (y) y.textContent = new Date().getFullYear();
-
-    // mini carrousel
-    const root = document.querySelector("[data-carousel]");
-    if (!root) return;
-    const slides = [...root.querySelectorAll(".carousel-slide")];
-    const dots   = [...root.querySelectorAll(".carousel-dot")];
-    let i = 0, timer;
-
-    const show = (n) => {
-      i = (n + slides.length) % slides.length;
-      slides.forEach((s, k) => s.classList.toggle("hidden", k !== i));
-      dots.forEach((d, k) => d.classList.toggle("bg-slate-900", k === i));
-      dots.forEach((d, k) => d.classList.toggle("bg-slate-300", k !== i));
-    };
-
-    root.querySelector("[data-action='prev']")?.addEventListener("click", () => show(i-1));
-    root.querySelector("[data-action='next']")?.addEventListener("click", () => show(i+1));
-    dots.forEach((d, k) => d.addEventListener("click", () => show(k)));
-
-    const autoplay = root.dataset.autoplay === "true";
-    const interval = Number(root.dataset.interval || 3500);
-    const pauseOnHover = root.dataset.pauseOnHover === "true";
-
-    const start = () => { if (autoplay) timer = setInterval(() => show(i+1), interval); };
-    const stop  = () => { if (timer) clearInterval(timer); };
-
-    if (pauseOnHover) {
-      root.addEventListener("mouseenter", stop);
-      root.addEventListener("mouseleave", start);
-    }
-    start();
-    show(0);
-  });
-</script>
