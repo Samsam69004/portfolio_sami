@@ -9,6 +9,9 @@
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+  <!-- Calendly -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
   <%# Google Search Console : une seule balise (ENV prioritaire, sinon valeur fixe) %>
   <% if Rails.env.production? && ENV["GSC_META"].present? %>
@@ -100,7 +103,7 @@
 </head>
 
 <body class="bg-slate-50 text-slate-800">
-<header id="mainNav" class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+<header id="mainNav" data-shrink class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
     <!-- Ligne du haut : 3 colonnes (logo | liens centrés | bouton) -->
     <div class="grid grid-cols-[auto_1fr_auto] items-center gap-6 py-3">
@@ -124,8 +127,12 @@
 
       <!-- Col 3 : bouton -->
       <div class="justify-self-end">
-        <%= link_to "Discuter", root_path(anchor: "contact"), data: { turbo: false },
-              class: "inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-white font-semibold shadow hover:bg-sky-600 transition" %>
+        <a href="https://calendly.com/samsam_cm/30min"
+            data-calendly
+            data-calendly-url="https://calendly.com/samsam_cm/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+            class="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-white font-semibold shadow hover:bg-sky-600 transition">
+          Prendre RDV
+        </a>
       </div>
     </div>
 

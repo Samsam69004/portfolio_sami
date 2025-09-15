@@ -36,6 +36,62 @@ function initAOS() {
   }
 }
 
+// ---- Smooth scroll pour les ancres internes ----
+function initSmoothAnchors() {
+  document.addEventListener(
+    "click",
+    (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+
+      const hash = a.getAttribute("href"); // ex: "#projects"
+      if (!hash || hash === "#") return;
+
+      const target = document.querySelector(hash);
+      if (!target) return; // on laisse le comportement natif si pas trouvé
+
+      e.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      // met à jour l'URL (sans recharger)
+      setTimeout(() => history.replaceState(null, "", hash), 150);
+    },
+    { passive: false }
+  );
+}
+
+// ---- Calendly (popup + fallback) ----
+function initCalendlyButton() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-calendly]");
+    if (!btn) return;
+
+    const url = btn.getAttribute("data-calendly-url") || btn.getAttribute("href");
+    if (!url) return;
+
+    e.preventDefault();
+
+    // si le script Calendly est dispo, ouvre la popup
+    if (window.Calendly && typeof Calendly.initPopupWidget === "function") {
+      Calendly.initPopupWidget({ url });
+      return;
+    }
+
+    // sinon, tente pendant ~2s puis fallback en nouvel onglet
+    let tries = 0;
+    const timer = setInterval(() => {
+      tries++;
+      if (window.Calendly && typeof Calendly.initPopupWidget === "function") {
+        clearInterval(timer);
+        Calendly.initPopupWidget({ url });
+      } else if (tries > 20) {
+        clearInterval(timer);
+        window.open(url, "_blank", "noopener");
+      }
+    }, 100);
+  });
+}
+
+
 // ---- Particules (canvas#stars) ----
 function initStars() {
   const c = document.getElementById("stars");
@@ -46,7 +102,13 @@ function initStars() {
   let w, h, dpr, rafId;
 
   const stars = Array.from({ length: 140 }, () => ({
-    x: 0, y: 0, r: 0, a: 0, vx: 0, vy: 0, alpha: 0,
+    x: 0,
+    y: 0,
+    r: 0,
+    a: 0,
+    vx: 0,
+    vy: 0,
+    alpha: 0,
   }));
 
   function resize() {
@@ -93,12 +155,16 @@ function initStars() {
   rafId = requestAnimationFrame(frame);
 
   // Cleanup avant mise en cache Turbo
-  document.addEventListener("turbo:before-cache", () => {
-    cancelAnimationFrame(rafId);
-    window.removeEventListener("resize", onResize);
-    // reset width/height pour éviter canvas fantôme
-    c.width = c.width;
-  }, { once: true });
+  document.addEventListener(
+    "turbo:before-cache",
+    () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", onResize);
+      // reset width/height pour éviter canvas fantôme
+      c.width = c.width;
+    },
+    { once: true }
+  );
 }
 
 // ---- Tilt 3D léger ----
@@ -129,36 +195,44 @@ function initTilt() {
     card.addEventListener("mousemove", onMove);
     ["mouseleave", "blur"].forEach((ev) => card.addEventListener(ev, reset));
 
-    document.addEventListener("turbo:before-cache", () => {
-      card.removeEventListener("mousemove", onMove);
-      ["mouseleave", "blur"].forEach((ev) => card.removeEventListener(ev, reset));
-      reset();
-    }, { once: true });
+    document.addEventListener(
+      "turbo:before-cache",
+      () => {
+        card.removeEventListener("mousemove", onMove);
+        ["mouseleave", "blur"].forEach((ev) => card.removeEventListener(ev, reset));
+        reset();
+      },
+      { once: true }
+    );
   });
 }
 
 // === Navbar compacte (shrink) ===
 function initShrinkingNav() {
-  const nav = document.querySelector('#mainNav[data-shrink]');
+  const nav = document.querySelector("#mainNav[data-shrink]");
   if (!nav || nav.dataset.bound) return;
-  nav.dataset.bound = '1';
+  nav.dataset.bound = "1";
 
   const apply = () => {
     const scrolled = window.scrollY > 16;
-    nav.classList.toggle('shadow-md', scrolled);
-    nav.classList.toggle('py-2', scrolled);
-    nav.classList.toggle('py-4', !scrolled);
+    nav.classList.toggle("shadow-md", scrolled);
+    nav.classList.toggle("py-2", scrolled);
+    nav.classList.toggle("py-4", !scrolled);
   };
 
   apply();
 
   const onScroll = () => apply();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true });
 
-  document.addEventListener('turbo:before-cache', () => {
-    window.removeEventListener('scroll', onScroll);
-    delete nav.dataset.bound;
-  }, { once: true });
+  document.addEventListener(
+    "turbo:before-cache",
+    () => {
+      window.removeEventListener("scroll", onScroll);
+      delete nav.dataset.bound;
+    },
+    { once: true }
+  );
 }
 
 // ---- Lazy-load des iframes ----
@@ -169,11 +243,15 @@ function initLazyIframes() {
   const load = (el) => {
     const src = el.getAttribute("data-src");
     if (!src) return;
-    el.addEventListener("load", () => {
-      el.classList.remove("opacity-0");
-      const skeleton = el.parentElement?.querySelector(".animate-pulse");
-      if (skeleton) skeleton.remove();
-    }, { once: true });
+    el.addEventListener(
+      "load",
+      () => {
+        el.classList.remove("opacity-0");
+        const skeleton = el.parentElement?.querySelector(".animate-pulse");
+        if (skeleton) skeleton.remove();
+      },
+      { once: true }
+    );
     el.setAttribute("src", src);
     el.setAttribute("loading", "lazy");
   };
@@ -183,15 +261,18 @@ function initLazyIframes() {
     return;
   }
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(({ target, isIntersecting }) => {
-      if (!isIntersecting) return;
-      load(target);
-      io.unobserve(target);
-    });
-  }, { rootMargin: "200px" });
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        load(target);
+        io.unobserve(target);
+      });
+    },
+    { rootMargin: "200px" }
+  );
 
-  frames.forEach(f => io.observe(f));
+  frames.forEach((f) => io.observe(f));
   document.addEventListener("turbo:before-cache", () => io.disconnect(), { once: true });
 }
 
@@ -234,7 +315,12 @@ function initCarousel(root) {
     if (e.key === "ArrowRight") show(i + 1);
   });
 
-  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+  const stop = () => {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  };
   const start = () => {
     if (!autoplay) return;
     stop();
@@ -261,11 +347,13 @@ function initCarousels() {
 // ---- Boot ----
 function boot() {
   initAOS();
+  initSmoothAnchors();
   initStars();
   initTilt();
   initShrinkingNav();
   initLazyIframes();
   initCarousels();
+  initCalendlyButton();
 }
 
 onReady(boot);

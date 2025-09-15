@@ -8,7 +8,8 @@ Rails.application.configure do
     policy.script_src  :self, :https,
       "https://static.hotjar.com", "https://script.hotjar.com",
       "https://www.googletagmanager.com",
-      "https://www.google-analytics.com"
+      "https://www.google-analytics.com",
+      "https://assets.calendly.com"
 
     # XHR/WebSocket (Hotjar + GA4)
     policy.connect_src :self, :https,
@@ -25,10 +26,10 @@ Rails.application.configure do
 
     # Fonts/CSS locaux (✅ ajouter les deux lignes suivantes UNIQUEMENT si tu utilises Google Fonts)
     policy.font_src  :self, :data # , "https://fonts.gstatic.com"
-    policy.style_src :self        # , "https://fonts.googleapis.com"
+    policy.style_src :self, :https, :unsafe_inline, "https://assets.calendly.com"
 
     # iframes autorisées depuis TON site (PDF, etc.)
-    policy.frame_src :self, :https
+    policy.frame_src :self, :https, "https://calendly.com"
     policy.child_src :self
 
     policy.object_src :none
