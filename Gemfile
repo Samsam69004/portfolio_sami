@@ -62,5 +62,5 @@ end
 gem "pg", "~> 1.5"
 
 group :development, :test do
-  gem "sqlite3", "~> 1.7"   # OK locally, but NOT in production
+  gem "sqlite3", "~> 2.7"   # OK locally, but NOT in production
 end
