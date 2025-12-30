@@ -59,7 +59,7 @@ group :test do
 end
 
 # Gemfile
-gem "pg", "~> 1.5"
+gem "pg", "~> 1.6"
 
 group :development, :test do
   gem "sqlite3", "~> 1.7"   # OK locally, but NOT in production
